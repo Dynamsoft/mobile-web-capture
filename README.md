@@ -1,137 +1,61 @@
-# Dynamsoft Document Viewer
+# Document Web Capture from Mobile Cameras - User Guide
 
-![version](https://img.shields.io/npm/v/dynamsoft-document-viewer.svg)
-![downloads](https://img.shields.io/npm/dm/dynamsoft-document-viewersvg) 
-![jsdelivr](https://img.shields.io/jsdelivr/npm/hm/dynamsoft-document-viewer.svg)
-![](https://img.shields.io/snyk/vulnerabilities/npm/dynamsoft-document-viewer.svg)
+[Document Web Capture from Mobile Cameras](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) (DWC) a solution designed for iOS and Android browsers. It helps developers to build document scanning web applications for mobile users to load, edit, save, and capture images from the camera right in mobile browsers.
 
-[Dynamsoft Document Viewer (DDV)](https://www.dynamsoft.com/document-viewer/docs/introduction/index.html) is a versatile SDK designed to offer a range of viewers for configuring and executing various document processing workflows.
 
-Key features include:
+Featured Products:
 
-- Data Management: Organize, retrieve, and manage documents and pages efficiently.
+- [Dynamsoft Document Viewer](https://www.dynamsoft.com/document-viewer/docs/introduction/index.html)
+- [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/web/programming/javascript/)
 
-- Viewer Types: Customize your document interaction with a variety of viewers.
 
-Additionally, DDV enhances functionality by allowing integration with customized image filtering processes and document boundary detection processes. It is particularly recommended to use [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/web/programming/javascript/) for document detection.
+<span style="font-size:20px">Table of Contents</span>
 
-DDV enables the seamless creation of a document management web application tailored to your specific workflow, user interface, and style needs.
-
-## Table of Contents
-
-- [System Requirements](#system-requirements)
+- [Samples](#samples)
 - [License Key](#license-key)
-- [Adding the dependency](#adding-the-dependency)
-- [Creating HelloWorld](#creating-helloworld)
+- [System Requirements](#system-requirements)
 - [Documentation](#documentation)
-- [Features](#features)
-- [Contact Us](#contact-us)
-- [License Agreement](#license-agreement)
-- [Changelog](#changelog)
+- [Release Notes](#release-notes)
+- [Next Steps](#next-steps)
 
-# System Requirements
+## Samples
 
-The SDK requires the following features to work:
-
-- `WebAssembly`, `Blob`, `URL`/`createObjectURL`, `Web Workers`
+- Hello World - [Guide](https://www.dynamsoft.com/doc-web-capture/docs/gettingstarted/helloworld.html) \| [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/hello-world/hello-world) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/hello-world/hello-world/)
+  - Angular App - [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/hello-world/hello-world-angular) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/hello-world/hello-world-angular/)
+  - React App - [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/hello-world/hello-world-react) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/hello-world/hello-world-react/)
+  - Vue3 App - [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/hello-world/hello-world-vue3) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/hello-world/hello-world-vue3/)
+- Popular use cases
+  - Review and Adjust the detected boundaries - [Guide](https://www.dynamsoft.com/doc-web-capture/docs/codegallery/usecases/sample1.html) \| [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/review-adjust-detected-boundaries) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/review-adjust-detected-boundaries/)
+  - Capture continuously & Edit result images - [Guide](https://www.dynamsoft.com/doc-web-capture/docs/codegallery/usecases/sample2.html) \| [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/capture-continuously-edit-result-images) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/capture-continuously-edit-result-images/)
+  - Relatively complete document capturing workflow - [Guide](https://www.dynamsoft.com/doc-web-capture/docs/codegallery/usecases/sample3.html) \| [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/relatively-complete-doc-capturing-workflow) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/relatively-complete-doc-capturing-workflow/)
+  - Detect boundaries on the existing images - [Guide](https://www.dynamsoft.com/doc-web-capture/docs/codegallery/usecases/sample4.html) \| [Github](https://github.com/Dynamsoft/DocWebCapture-MobileCam/tree/master/samples/detect-boundaries-on-existing-images) \| [Run](https://dynamsoft.github.io/DocWebCapture-MobileCam/samples/detect-boundaries-on-existing-images/)
 
 ## License Key
 
-[![](https://img.shields.io/badge/Get-30--day%20FREE%20Trial%20License-blue)](https://www.dynamsoft.com/customer/license/trialLicense/?product=ddv&utm_source=npm)
+[![](https://img.shields.io/badge/Get-30--day%20FREE%20Trial%20License-blue)](https://www.dynamsoft.com/customer/license/trialLicense/?product=dwc&utm_source=npm)
 
-## Adding the dependency
+## System Requirements
 
-Please refer to [this article](https://www.dynamsoft.com/document-viewer/docs/gettingstarted/add_dependency.html).
+DWC requires the following features to work:
 
-## Creating HelloWorld
+- Secure context (HTTPS deployment)
 
-[How to create HelloWorld](https://www.dynamsoft.com/document-viewer/docs/gettingstarted/helloworld.html)
+  When deploying your application / website for production, make sure to serve it via a secure HTTPS connection. This is required for two reasons
+  
+  - Access to the camera video stream is only granted in a security context. Most browsers impose this restriction.
+    > Some browsers like Chrome may grant the access for `http://127.0.0.1` and `http://localhost` or even for pages opened directly from the local disk (`file:///...`). This can be helpful for temporary development and test.
+  
+  - Dynamsoft License requires a secure context to work.
 
-Review the complete code:
+- `WebAssembly`, `Blob`, `URL`/`createObjectURL`, `Web Workers`
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DDV - HelloWorld</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/ddv.css">
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/ddv.js"></script>
-</head>
-<style>
-    html,body {
-        width: 100%;
-        height: 100%;
-        margin:0;
-        padding:0;
-        overscroll-behavior-y: none;
-        overflow: hidden;
-    }
-
-    #container {
-        width: 100%;
-        height: 100%;
-    }
-</style>
-<body>
-    <div id="container"></div>
-</body>
-<script type="module">
-    (async () => {
-        await Dynamsoft.DDV.setConfig({
-           // Public trial license which is valid for 24 hours
-           //You can request a 30-day trial key from   
-           //https://www.dynamsoft.com/customer/license/trialLicense/?product=ddv
-            license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
-            engineResourcePath: "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/engine",
-        });
-        Dynamsoft.DDV.setProcessingHandler("imageFilter", new Dynamsoft.DDV.ImageFilter());
-        const editViewer = new Dynamsoft.DDV.EditViewer({
-            container: "container",
-        });
-    })();
-</script>
-</html>
-```
+  The above four features are required for the SDK to work.
 
 ## Documentation
 
-* [Developer's Guide](https://www.dynamsoft.com/document-viewer/docs/introduction/index.html)
-* [API Reference](https://www.dynamsoft.com/document-viewer/docs/api/index.html)
+You can check out the detailed documentation of the solution [here](https://www.dynamsoft.com/doc-web-capture/docs/introduction/index.html).
 
-## Features
+## Release Notes
 
-Generally, the features of DDV can be divided to two parts as below.
+Check out the [release notes](https://www.dynamsoft.com/doc-web-capture/docs/releasenotes/index.html).
 
-### Data Management
-
-Data management is to manage the data which is imported into DDV. It is managed from the following two aspects:
-
-- Document Management: Document creation/deletion/merging, etc.
-- Page management: Pages in documents loading/saving/deleting/moving, etc.
-
-### Viewers
-
-Viewers are used to display the data. According to the different uses of viewers, DDV provides five different viewer types, which are implemented through five viewer classes.
-
-- Edit Viewer: Edit the pages in document, such as, rotating, cropping, filtering, etc. and adjust the layout of the display.
-- Capture Viewer: Control camera, play video stream, and capture the images from camera.
-- Perspective Viewer: Do page boundary manual adjustment & perspective transformation.
-- Browse Viewer: Display pages in multiple-mode, pages can be multiple selected.
-- Custom Viewer: No built-in UI or functionality, which is used for creating your own viewer.
-
-[More](https://www.dynamsoft.com/document-viewer/docs/features/index.html)
-
-## Contact Us
-
-[Contact Dynamsoft](https://www.dynamsoft.com/company/contact/) to resolve any issue you encounter with the library.
-
-## License Agreement
-
-https://www.dynamsoft.com/company/license-agreement/
-
-## Changelog
-
-Check out the [release notes](https://www.dynamsoft.com/document-viewer/docs/releasenotes/index.html) of the Dynamsoft Document Viewer.
