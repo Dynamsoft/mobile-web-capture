@@ -1,0 +1,10 @@
+<div 
+    class= "image-container" 
+    [style.display]= "showCaptureViewer? 'none' : ''"
+>
+    <div class="restore-button" (click)="switchVisibility(true)">Restore</div>
+    <span>Original Image:</span>
+    <img alt="" [src]="images.originalImage"/>
+    <span>Normalized Image:</span>
+    <img alt="" [src]="images.detectedImage"/>
+</div>

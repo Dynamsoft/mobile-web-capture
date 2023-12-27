@@ -1,0 +1,14 @@
+<style></style>
+
+<app-capture-viewer
+    [showCaptureViewer] = "showCaptureViewer"
+    [switchVisibility] = "switchVisibility"
+    [setImages] = "setImages"
+></app-capture-viewer>
+<app-image-container
+    [showCaptureViewer] = "showCaptureViewer"
+    [switchVisibility] = "switchVisibility"
+    [images] = "images"
+></app-image-container>
+
+<router-outlet></router-outlet>

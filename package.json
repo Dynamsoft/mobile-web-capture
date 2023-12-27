@@ -1,0 +1,43 @@
+{
+    "name": "docWebCapture-mobileCam",
+    "version": "1.0.0",
+    "author": {
+        "name": "Dynamsoft",
+        "url": "https://www.dynamsoft.com"
+    },
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "dependencies": {
+    },
+    "description": "Document Web Capture from Mobile Cameras is a solution designed for iOS and Android browsers. It helps developers to build document scanning web applications for mobile users to load, edit, save, and capture images from the camera right in mobile browsers.",
+    "devDependencies": {},
+    "directories": {},
+    "files": [
+		"distributables",
+		"samples"
+    ],
+    "homepage": "https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions",
+    "keywords": [
+        "document",
+        "page",
+        "document boundaries detection",
+        "capturing",
+        "perspective transformation",
+        "editing",
+        "image filter",
+		"Dynamsoft Document Viewer",
+		"Dynamsoft Document Normalizer"
+    ],
+    "main": "",
+    "module": "",
+    "maintainers": [
+        {
+            "name": "Dynamsoft Support Team",
+            "email": "support@dynamsoft.com"
+        }
+    ],
+    "optionalDependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Dynamsoft/docWebCapture-mobileCam"
+    }
+}
