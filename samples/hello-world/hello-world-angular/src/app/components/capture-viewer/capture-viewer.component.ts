@@ -27,7 +27,7 @@ export class CaptureViewerComponent {
     
     await DDV.setConfig({
       license: 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9',
-      engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
+	    engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
     });
 
     LicenseManager.initLicense(
