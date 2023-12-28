@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CaptureVisionRouter, LicenseManager } from "dynamsoft-capture-vision-router"
 import { DDV } from "dynamsoft-document-viewer"
 import { useEffect, useState } from "react"
@@ -53,7 +54,7 @@ export default function CaptureViewer(props) {
     }
 
     useEffect(() => {
-        init();
+      init();
     },[]);
 
     useEffect(() => {
