@@ -20,24 +20,31 @@
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.11/dist/ddn.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/cvr.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/ddv.js"></script>
+<script>
+    if(location.protocol === "file:") {
+        const message = `Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+    };
+
+    Dynamsoft.DDV.on("error", (e) => {
+        alert(e.message)
+    });
+</script>
 <script type="module">
     import { isMobile, initDocDetectModule } from "./utils.js";
-    import { mobilePerspectiveUiConfig, pcPerspectiveUiConfig } from "./uiConfig.js"
+    import { mobilePerspectiveUiConfig, pcPerspectiveUiConfig } from "./uiConfig.js";
     // Writing style of 'Top-level await' to be compatible with older versions of browsers
     (async () => {
         // Initialize DDV
         await Dynamsoft.DDV.setConfig({
-            license: "f0099mgAAAJ6zGNMjgq6hDnJnu0i63Wy3J35NFlD8WG1Ra7Qi3xh/QODuqGye7KiY5zMiptUuQhk5x79YUkETGgUUGTTi0RQ+umEUIDgBkYENYvAGNQSn9Wu6v9vko+ee8QDJ5yED",
+            license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
             engineResourcePath: "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/engine",
         });
 
-        Dynamsoft.DDV.on("error", (e) => {
-            alert(e.message)
-        })
-
         // Initialize DDN
         Dynamsoft.License.LicenseManager.initLicense(
-            "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjM0ODEwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMjM0ODEwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjotMjA0MzA5ODk1NH0="
+            "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
         );
         Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DDN"]);
 
@@ -52,7 +59,7 @@
                 enableAutoCapture: true,
                 enableAutoDetect: true,
             }
-        })
+        });
 
         // Play video stream in 1080P
         captureViewer.play({
@@ -60,9 +67,9 @@
         });
 
         // Register captured event
-            captureViewer.on("captured", () => {
+        captureViewer.on("captured", () => {
             viewerSwitch(false, true);
-        })
+        });
 
         // Create a perspective viewer
         const perspectiveViewer = new Dynamsoft.DDV.PerspectiveViewer({
@@ -72,7 +79,7 @@
             viewerConfig:{
                 scrollToLatest: true,
             }
-        })
+        });
         perspectiveViewer.hide();
 
         // Register the event for "PerspectiveAll" button to display the result image
@@ -80,17 +87,17 @@
             viewerSwitch(false, false);
             document.getElementById("container").style.display = "none";
 
-            const pageUid = perspectiveViewer.getCurrentPageUid()
+            const pageUid = perspectiveViewer.getCurrentPageUid();
             const pageData =  await captureViewer.currentDocument.getPageData(pageUid);
             // Normalized image
             document.getElementById("normalized").src = URL.createObjectURL(pageData.display.data);
-        })
+        });
 
         // Register the event for "Back" button
         perspectiveViewer.on("backToCaptureViewer", () => {
             viewerSwitch(true, false);
             perspectiveViewer.currentDocument.deleteAllPages();
-        })
+        });
 
         // Register the event for "DeleteCurrent" & "DeletedAll" buttons
         perspectiveViewer.on("noImageBack", () => {
@@ -98,9 +105,9 @@
             const count = perspectiveViewer.currentDocument.pages.length;
 
             if(count === 0) {
-                viewerSwitch(true,false)
+                viewerSwitch(true,false);
             }
-        })
+        });
 
         // Define a function to control the viewers' visibility.
         function viewerSwitch(capture, perspective){
@@ -117,15 +124,15 @@
             } else {
                 perspectiveViewer.hide();
             }
-        }
+        };
 
         // Restore Button function
         document.getElementById("restore").onclick = () => {
             perspectiveViewer.currentDocument.deleteAllPages();
 
             document.getElementById("container").style.display = "";
-            viewerSwitch(true, false)
-        }
+            viewerSwitch(true, false);
+        };
     })();
 </script>
 </html>

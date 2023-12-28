@@ -27,11 +27,11 @@ export class AppComponent {
   images: CapturedImages = {
     originalImage: '',
     detectedImage: ''
-  }
+  };
   switchVisibility = (value: boolean) => {
     this.showCaptureViewer = value
-  }
+  };
   setImages = (value: CapturedImages) => {
     this.images =  value;
-  }
+  };
 }

@@ -4,11 +4,11 @@ import CaptureViewer from './components/CaptureViewer';
 import { useState } from 'react';
 
 function App() {
-  const [showCaptureViewer, setShowCaptureViewer] = useState(true)
+  const [showCaptureViewer, setShowCaptureViewer] = useState(true);
   const [images, setImages] = useState({
     originalImage: '',
     detectedImage: ''
-  })
+  });
 
 
   return (

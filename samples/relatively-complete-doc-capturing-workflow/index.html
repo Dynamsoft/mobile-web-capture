@@ -15,6 +15,17 @@
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.11/dist/ddn.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/cvr.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/ddv.js"></script>
+<script>
+    if(location.protocol === "file:") {
+        const message = `Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+    };
+
+    Dynamsoft.DDV.on("error", (e) => {
+        alert(e.message)
+    });
+</script>
 <script type="module">
     import { isMobile, initDocDetectModule } from "./utils.js";
     import { 
@@ -24,23 +35,19 @@
         pcCaptureViewerUiConfig,
         pcPerspectiveUiConfig,
         pcEditViewerUiConfig
-    } from "./uiConfig.js"
+    } from "./uiConfig.js";
     
     // Writing style of 'Top-level await' to be compatible with older versions of browsers
     (async () => {
         // Initialize DDV
         await Dynamsoft.DDV.setConfig({
-            license: "f0099mgAAAJ6zGNMjgq6hDnJnu0i63Wy3J35NFlD8WG1Ra7Qi3xh/QODuqGye7KiY5zMiptUuQhk5x79YUkETGgUUGTTi0RQ+umEUIDgBkYENYvAGNQSn9Wu6v9vko+ee8QDJ5yED",
+            license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
             engineResourcePath: "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@latest/dist/engine",
         });
 
-        Dynamsoft.DDV.on("error", (e) => {
-            alert(e.message)
-        })
-
         // Initialize DDN
         Dynamsoft.License.LicenseManager.initLicense(
-            "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjM0ODEwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMjM0ODEwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjotMjA0MzA5ODk1NH0="
+            "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
         );
         Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DDN"]);
 
@@ -59,7 +66,7 @@
                 enableAutoCapture: true,
                 enableAutoDetect: true,
             }
-        })
+        });
 
         // Play video stream in 1080P
         captureViewer.play({
@@ -69,7 +76,7 @@
         // Register an event in `captureViewer` to show the perspective viewer
         captureViewer.on("showPerspectiveViewer",() => {
             switchViewer(0,1,0);
-        })
+        });
 
         // Create a perspective viewer
         const perspectiveViewer = new Dynamsoft.DDV.PerspectiveViewer({
@@ -79,7 +86,7 @@
             viewerConfig: {
                 scrollToLatest: true,
             }
-        })
+        });
 
         perspectiveViewer.hide();
 
@@ -87,26 +94,26 @@
         perspectiveViewer.on("backToCaptureViewer",() => {
             switchViewer(1,0,0);
             captureViewer.play();
-        })
+        });
 
         // Register an event in `perspectiveViewer` to show the edit viewer
         perspectiveViewer.on("showEditViewer",() => {
             switchViewer(0,0,1)
-        })
+        });
         
         // Create an edit viewer
         const editViewer = new Dynamsoft.DDV.EditViewer({
             container: "container",
             groupUid: captureViewer.groupUid,
             uiConfig: isMobile() ? mobileEditViewerUiConfig : pcEditViewerUiConfig
-        })
+        });
 
         editViewer.hide();
 
         // Register an event in `editViewer` to go back the perspective viewer
         editViewer.on("backToPerspectiveViewer",() => {
             switchViewer(0,1,0);
-        })
+        });
         
         // Define a function to control the viewers' visibility
         const switchViewer = (c,p,e) => {
@@ -117,12 +124,12 @@
             if(c) {
                 captureViewer.show();
             } else {
-                captureViewer.stop()
+                captureViewer.stop();
             }
             
             if(p) perspectiveViewer.show();
             if(e) editViewer.show();
-        }
+        };
     })();
 </script>
 </html>

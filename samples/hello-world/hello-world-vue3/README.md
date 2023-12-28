@@ -1,46 +1,46 @@
-# ddv-vue3
+# Hello World Vue App
 
-This template should help get you started developing with Vue 3 in Vite.
+This project was bootstrapped with [Create Vue App](https://github.com/vuejs/vue-cli). It utilizes the solution [Document Web Capture from Mobile Cameras](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) to provide the following functionalities
 
-## Recommended IDE Setup
+- Auto capture document from Mobile Cameras
+- Real-time document boundaries detection
+- Normalize the captured document
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Usage
 
-## Type Support for `.vue` Imports in TS
+Environment: Node.js v18.13.0
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dwc) of Document Web Capture from Mobile Cameras.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+2. Update the license key in `src\Component\CaptureViewer.vue` file:
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+   ```javascript
+   await DDV.setConfig({
+       // your license key
+   	license: 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9', 
+       engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
+   });
+   
+   // your license key
+   LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'); 
+   ```
 
-## Customize configuration
+3. Install the dependencies:
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+   ```
+   npm install
+   ```
 
-## Project Setup
+4. Run the application as follows:
 
-```sh
-npm install
-```
+   ```
+   npm run dev
+   ```
 
-### Compile and Hot-Reload for Development
+## Build
 
-```sh
-npm run dev
-```
+Run `npm build` to build the project. The build artifacts will be stored in the `build/` directory. 
+It correctly bundles Vue in production mode and optimizes the build for the best performance.
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
