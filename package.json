@@ -1,5 +1,5 @@
 {
-    "name": "docWebCapture-mobileCam",
+    "name": "mobile-web-capture",
     "version": "1.0.0",
     "author": {
         "name": "Dynamsoft",
@@ -24,8 +24,8 @@
         "perspective transformation",
         "editing",
         "image filter",
-		"Dynamsoft Document Viewer",
-		"Dynamsoft Document Normalizer"
+        "Dynamsoft Document Viewer",
+        "Dynamsoft Document Normalizer"
     ],
     "main": "",
     "module": "",
