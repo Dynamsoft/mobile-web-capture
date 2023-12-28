@@ -9,7 +9,6 @@ const props = defineProps({
   showCaptureViewer: Boolean
 })
 const emit = defineEmits(['switchVisibility', 'setImages'])
-
 onMounted(async () => {
   DDV.on('error', (e) => {
     alert(e.message)
@@ -21,8 +20,7 @@ onMounted(async () => {
   })
 
   LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9')
-  CaptureVisionRouter.engineResourcePath =
-    'https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/'
+  CaptureVisionRouter.engineResourcePath = 'https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/';
   CaptureVisionRouter.preloadModule(['DDN'])
 
   const router = await CaptureVisionRouter.createInstance()
