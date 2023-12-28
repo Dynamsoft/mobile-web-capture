@@ -8,7 +8,7 @@ This project was bootstrapped with [Angular CLI](https://github.com/angular/angu
 
 ## Usage
 
-Environment: Node.js v18.13.0
+Environment: Node.js v18.14.0
 
 1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc) of Mobile Web Capture.
 
