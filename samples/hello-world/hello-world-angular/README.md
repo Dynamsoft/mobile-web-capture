@@ -1,6 +1,6 @@
 # Hello World Angular App
 
-This project was bootstrapped with [Angular CLI](https://github.com/angular/angular-cli). It utilizes the solution [Document Web Capture from Mobile Cameras](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) to provide the following functionalities
+This project was bootstrapped with [Angular CLI](https://github.com/angular/angular-cli). It utilizes the solution [Mobile Web Capture](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) to provide the following functionalities
 
 - Auto capture document from Mobile Cameras
 - Real-time document boundaries detection
@@ -10,7 +10,7 @@ This project was bootstrapped with [Angular CLI](https://github.com/angular/angu
 
 Environment: Node.js v18.13.0
 
-1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dwc) of Document Web Capture from Mobile Cameras.
+1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc) of Mobile Web Capture.
 
 2. Update the license key in `src\app\components\capture-viewer\capture-viewer.component.ts` file:
 

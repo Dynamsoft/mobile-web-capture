@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dwc-angular": {
+    "mwc-angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/dwc-angular",
+            "outputPath": "dist/mwc-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -57,10 +57,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "dwc-angular:build:production"
+              "buildTarget": "mwc-angular:build:production"
             },
             "development": {
-              "buildTarget": "dwc-angular:build:development"
+              "buildTarget": "mwc-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -68,7 +68,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "dwc-angular:build"
+            "buildTarget": "mwc-angular:build"
           }
         },
         "test": {

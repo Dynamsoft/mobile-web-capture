@@ -1,6 +1,6 @@
 # Hello World Vue App
 
-This project was bootstrapped with [Create Vue App](https://github.com/vuejs/vue-cli). It utilizes the solution [Document Web Capture from Mobile Cameras](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) to provide the following functionalities
+This project was bootstrapped with [Create Vue App](https://github.com/vuejs/vue-cli). It utilizes the solution [Mobile Web Capture](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) to provide the following functionalities
 
 - Auto capture document from Mobile Cameras
 - Real-time document boundaries detection
@@ -10,7 +10,7 @@ This project was bootstrapped with [Create Vue App](https://github.com/vuejs/vue
 
 Environment: Node.js v18.13.0
 
-1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dwc) of Document Web Capture from Mobile Cameras.
+1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc) of Mobile Web Capture.
 
 2. Update the license key in `src\Component\CaptureViewer.vue` file:
 

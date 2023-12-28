@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { CaptureVisionRouter, LicenseManager } from "dynamsoft-capture-vision-router"
 import { DDV } from "dynamsoft-document-viewer"
 import { useEffect, useState } from "react"
@@ -14,8 +13,7 @@ export default function CaptureViewer(props) {
         });
 
         await DDV.setConfig({
-            license:
-              'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9',
+            license: 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9',
             engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
         });
 
@@ -55,6 +53,7 @@ export default function CaptureViewer(props) {
 
     useEffect(() => {
       init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     useEffect(() => {
@@ -64,6 +63,7 @@ export default function CaptureViewer(props) {
         } else {
             captureViewer?.stop();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.showCaptureViewer]);
 
     return (
