@@ -16,7 +16,6 @@ Featured Products:
 - [System Requirements](#system-requirements)
 - [Documentation](#documentation)
 - [Release Notes](#release-notes)
-- [Next Steps](#next-steps)
 
 ## Samples
 
