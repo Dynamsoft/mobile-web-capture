@@ -26,12 +26,12 @@ export class CaptureViewerComponent {
     });
     
     await DDV.setConfig({
-      license: 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9',
+      license: 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODM5ODkwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6MTgyNTQ5Njk4NH0=',
 	    engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
     });
 
     LicenseManager.initLicense(
-      'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'
+      'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODM5ODkwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6MTgyNTQ5Njk4NH0='
     );
     CaptureVisionRouter.engineResourcePath =
       'https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/';
