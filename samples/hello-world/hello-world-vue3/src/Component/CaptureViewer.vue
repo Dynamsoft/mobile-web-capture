@@ -31,6 +31,7 @@ onMounted(async () => {
   await LicenseManager.initLicense('DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9', true)
   await DDV.Core.init()
 
+
   const router = await CaptureVisionRouter.createInstance()
   await initDocDetectModule(DDV, router)
 
