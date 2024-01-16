@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobile Web Capture - Review and Adjust the detected boundaries</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/ddv.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.1.0/dist/ddv.css">
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
@@ -16,10 +16,11 @@
         <img id="normalized">
     </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.10/dist/core.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.11/dist/ddn.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/cvr.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/ddv.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.20/dist/ddn.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/cvr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.1.0/dist/ddv.js"></script>
 <script>
     if(location.protocol === "file:") {
         const message = `Please open the page via https:// or host it on "http://localhost/".`;
@@ -32,17 +33,16 @@
     import { mobilePerspectiveUiConfig, pcPerspectiveUiConfig } from "./uiConfig.js";
     // Writing style of 'Top-level await' to be compatible with older versions of browsers
     (async () => {
-        // Initialize DDV
-        await Dynamsoft.DDV.setConfig({
-            license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
-            engineResourcePath: "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine",
-        });
+        Dynamsoft.Core.CoreModule.loadWasm(["DDN"]);
+        Dynamsoft.DDV.Core.loadWasm();
 
         // Initialize DDN
-        Dynamsoft.License.LicenseManager.initLicense(
-            "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
+        await  Dynamsoft.License.LicenseManager.initLicense(
+            "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9",
+            true
         );
-        Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DDN"]);
+        // Initialize DDV
+        await Dynamsoft.DDV.Core.init();
 
         // Configure document boundaries function
         await initDocDetectModule(Dynamsoft.DDV, Dynamsoft.CVR);
@@ -52,7 +52,6 @@
             container: "container",
             viewerConfig: {
                 acceptedPolygonConfidence: 60,
-                enableAutoCapture: true,
                 enableAutoDetect: true,
             }
         });
@@ -66,7 +65,7 @@
 
         // Register captured event
         captureViewer.on("captured", () => {
-            viewerSwitch(false, true);
+            switchViewer(false, true);
         });
 
         // Create a perspective viewer
@@ -82,7 +81,7 @@
 
         // Register the event for "PerspectiveAll" button to display the result image
         perspectiveViewer.on("done", async () => {
-            viewerSwitch(false, false);
+            switchViewer(false, false);
             document.getElementById("container").style.display = "none";
 
             const pageUid = perspectiveViewer.getCurrentPageUid();
@@ -93,7 +92,7 @@
 
         // Register the event for "Back" button
         perspectiveViewer.on("backToCaptureViewer", () => {
-            viewerSwitch(true, false);
+            switchViewer(true, false);
             perspectiveViewer.currentDocument.deleteAllPages();
         });
 
@@ -103,12 +102,12 @@
             const count = perspectiveViewer.currentDocument.pages.length;
 
             if(count === 0) {
-                viewerSwitch(true,false);
+                switchViewer(true,false);
             }
         });
 
         // Define a function to control the viewers' visibility.
-        function viewerSwitch(capture, perspective){
+        function switchViewer(capture, perspective){
             if(capture) {
                 captureViewer.show();
                 captureViewer.play().catch(err => {alert(err)});
@@ -129,7 +128,7 @@
             perspectiveViewer.currentDocument.deleteAllPages();
 
             document.getElementById("container").style.display = "";
-            viewerSwitch(true, false);
+            switchViewer(true, false);
         };
     })();
 </script>

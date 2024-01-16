@@ -12,17 +12,11 @@ Environment: Node.js v18.14.0
 
 1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc) of Mobile Web Capture.
 
-2. Update the license key in `src\app\components\CaptureViewer.js` file:
+2. Update the license key in `src\components\CaptureViewer.js` file:
 
    ```javascript
-   await DDV.setConfig({
-      // your license key
-      license: 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9',
-      engineResourcePath: 'https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.0.0/dist/engine'
-   });
-   
    // your license key
-   LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'); 
+   await LicenseManager.initLicense('DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9', true); 
    ```
 
 3. Install the dependencies:
