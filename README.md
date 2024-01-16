@@ -36,7 +36,7 @@ Featured Products:
 The following code snippet is using the public trial license to initialize the license. You can replace the public trial license with your own license key.
 
 ```typescript
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9"); // Replase license here
+await Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9", true);// Replase license here
 ```
 
 ## System Requirements
@@ -61,12 +61,12 @@ Mobile Web Capture requires the following features to work:
 
 The following table is a list of supported browsers based on the above requirements:
 
-  | Browser Name |             Version              |
-  | :----------: | :------------------------------: |
-  |    Chrome    |             v78+                 |
-  |   Firefox    |             v79+                 |
-  |    Safari    |             v15+                 |
-  |     Edge     |             v92+                 |
+| Browser Name |             Version              |
+| :----------: | :------------------------------: |
+|    Chrome    |             v78+                 |
+|   Firefox    |             v79+                 |
+|    Safari    |             v15+                 |
+|     Edge     |             v92+                 |
 
 Apart from the browsers, the operating systems may impose some limitations of their own that could restrict the use of the SDKs.
 
