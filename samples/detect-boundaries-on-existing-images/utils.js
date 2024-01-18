@@ -49,3 +49,31 @@ export function createFileInput(viewer, router){
 
     return input;
 }
+
+export function startLoading(text){
+    const loadingBar = document.createElement('div');
+    loadingBar.className = "mwc-loading-bar";
+
+    loadingBar.innerHTML = [
+        `<div class='loader'></div>`,
+        `<span id='mwcLoadingText'>${text}</span>`
+    ].join('')
+
+    document.body.appendChild(loadingBar);
+}
+
+export function updateLoadingText(text){
+    const loadingText = document.getElementById("mwcLoadingText");
+
+    if(loadingText){
+        loadingText.innerHTML = text;
+    }
+}
+
+export function stopLoading(){
+    const loadingBar = document.getElementsByClassName("mwc-loading-bar");
+
+    if(loadingBar.length > 0){
+        loadingBar[0].remove();
+    }
+}

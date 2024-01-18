@@ -21,7 +21,6 @@
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.20/dist/ddn.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/cvr.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@1.1.0/dist/ddv.js"></script>
-
 <script>
     if(location.protocol === "file:") {
         const message = `Please open the page via https:// or host it on "http://localhost/".`;
@@ -30,23 +29,37 @@
     };
 </script>
 <script type="module">
-    import { isMobile, initDocDetectModule } from "./utils.js";
+    import { 
+        isMobile,
+        initDocDetectModule,
+        startLoading,
+        updateLoadingText,
+        stopLoading
+    } from "./utils.js";
     import { mobilePerspectiveUiConfig, pcPerspectiveUiConfig } from "./uiConfig.js";
     // Writing style of 'Top-level await' to be compatible with older versions of browsers
     (async () => {
-        Dynamsoft.Core.CoreModule.loadWasm(["DDN"]);
+        startLoading("Waiting for authorization...");
+        // Preload DDV Resource
         Dynamsoft.DDV.Core.loadWasm();
-
-        // Initialize DDN
-        await  Dynamsoft.License.LicenseManager.initLicense(
+        
+        // Initialize DDN license
+        await Dynamsoft.License.LicenseManager.initLicense(
             "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODM5ODkwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6MTgyNTQ5Njk4NH0=",
             true
         );
+
+        updateLoadingText("Loading DDV library...");
+        // Preload DDN Resource
+        Dynamsoft.Core.CoreModule.loadWasm(["DDN"]);
+
         // Initialize DDV
         await Dynamsoft.DDV.Core.init();
 
+        updateLoadingText("Loading DDN library...");
         // Configure document boundaries function
         await initDocDetectModule(Dynamsoft.DDV, Dynamsoft.CVR);
+        stopLoading();
         
         //Create a capture viewer
         const captureViewer = new Dynamsoft.DDV.CaptureViewer({

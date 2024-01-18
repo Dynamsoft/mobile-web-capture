@@ -41,3 +41,33 @@ html,body {
     cursor: pointer;
     user-select: none;
 }
+
+.mwc-loading-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mwc-loading-bar span {
+    margin-top: 10px;
+    color: #535251;
+}
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid #d9d9d9;
+    border-right-color: #535251;
+    animation: l2 1s infinite linear;
+}
+
+@keyframes l2 {to{transform: rotate(1turn)}}
