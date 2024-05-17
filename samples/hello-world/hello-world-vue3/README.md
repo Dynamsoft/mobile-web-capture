@@ -33,7 +33,7 @@ Environment: Node.js v18.14.0
 
 ## Build
 
-Run `npm build` to build the project. The build artifacts will be stored in the `build/` directory. 
+Run `npm run build` to build the project. The build artifacts will be stored in the `build/` directory. 
 It correctly bundles Vue in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br />
