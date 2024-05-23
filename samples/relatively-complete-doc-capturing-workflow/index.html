@@ -46,11 +46,22 @@
         // Preload DDV Resource
         Dynamsoft.DDV.Core.loadWasm();
         
+        /** LICENSE ALERT - README
+         * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+         */
+
         // Initialize DDN license
         await Dynamsoft.License.LicenseManager.initLicense(
             "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODM5ODkwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6MTgyNTQ5Njk4NH0=",
             true
         );
+
+        /**
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense/?product=mwc to get your own trial license good for 30 days.
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/mobile-web-capture/docs/gettingstarted/license.html or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END
+         */
 
         updateLoadingText("Loading DDV library...");
         // Preload DDN Resource

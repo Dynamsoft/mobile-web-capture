@@ -3,12 +3,6 @@
 [Mobile Web Capture](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/?utm_content=nav-solutions) is a solution designed for iOS and Android browsers. It helps developers to build document scanning web applications for mobile users to load, edit, save, and capture images from the camera right in mobile browsers.
 
 
-Featured Products:
-
-- [Dynamsoft Document Viewer](https://www.dynamsoft.com/document-viewer/docs/introduction/index.html)
-- [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/web/programming/javascript/)
-
-
 <span style="font-size:20px">Table of Contents</span>
 
 - [Samples](#samples)
@@ -16,6 +10,7 @@ Featured Products:
 - [System Requirements](#system-requirements)
 - [Documentation](#documentation)
 - [Release Notes](#release-notes)
+- [Featured Products](#featured-products)
 
 ## Samples
 
@@ -36,7 +31,7 @@ Featured Products:
 The following code snippet is using the public trial license to initialize the license. You can replace the public trial license with your own license key.
 
 ```typescript
-await Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9", true);// Replase license here
+await Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwMjQ5NjE5NyJ9", true); // Replace license here
 ```
 
 ## System Requirements
@@ -56,6 +51,19 @@ Mobile Web Capture requires the following features to work:
 - `WebAssembly`, `Blob`, `URL`/`createObjectURL`, `Web Workers`
 
   The above four features are required for the SDK to work.
+
+*Note*:
+
+If you open the web page as `file:///` or `http://` , the camera may not work correctly because the API <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia" title="getUserMedia">getUserMedia</a> usually requires HTTPS to access the camera.
+
+To make sure your web application can access the camera, please configure your web server to support HTTPS. The following links may help.
+
+1. NGINX: <a target="_blank" href="https://nginx.org/en/docs/http/configuring_https_servers.html" title="Configuring HTTPS servers">Configuring HTTPS servers</a>
+2. IIS: <a target="_blank" href="https://aboutssl.org/how-to-create-a-self-signed-certificate-in-iis/" title="Create a Self Signed Certificate in IIS">Create a Self Signed Certificate in IIS</a>
+3. Tomcat: <a target="_blank" href="https://dzone.com/articles/setting-ssl-tomcat-5-minutes" title="Setting Up SSL on Tomcat in 5 minutes">Setting Up SSL on Tomcat in 5 minutes</a>
+4. Node.js: <a target="_blank" href="https://nodejs.org/docs/v0.4.1/api/tls.html" title="npm tls">npm tls</a>
+
+If the test doesn't go as expected, you can [contact us](https://www.dynamsoft.com/contact/).
 
 ### Supported Browsers
 
@@ -78,3 +86,7 @@ You can check out the detailed documentation of the solution [here](https://www.
 
 Check out the [release notes](https://www.dynamsoft.com/mobile-web-capture/docs/releasenotes/index.html).
 
+## Featured Products
+
+- [Dynamsoft Document Viewer](https://www.dynamsoft.com/document-viewer/docs/introduction/index.html)
+- [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/web/programming/javascript/)
