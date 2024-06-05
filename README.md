@@ -40,17 +40,7 @@ Mobile Web Capture requires the following features to work:
 
 - Secure context (HTTPS deployment)
 
-  When deploying your application / website for production, make sure to serve it via a secure HTTPS connection. This is required for two reasons
-
-  - Access to the camera video stream is only granted in a security context. Most browsers impose this restriction.
-    
-  > Some browsers like Chrome may grant the access for `http://127.0.0.1` and `http://localhost` or even for pages opened directly from the local disk (`file:///...`). This can be helpful for temporary development and test.
-  
-  - Dynamsoft License requires a secure context to work.
-
-- `WebAssembly`, `Blob`, `URL`/`createObjectURL`, `Web Workers`
-
-  The above four features are required for the SDK to work.
+- set Content-Type: application/wasm.
 
 *Note*:
 
@@ -58,10 +48,10 @@ If you open the web page as `file:///` or `http://` , the camera may not work co
 
 To make sure your web application can access the camera, please configure your web server to support HTTPS. The following links may help.
 
-1. NGINX: <a target="_blank" href="https://nginx.org/en/docs/http/configuring_https_servers.html" title="Configuring HTTPS servers">Configuring HTTPS servers</a>
-2. IIS: <a target="_blank" href="https://aboutssl.org/how-to-create-a-self-signed-certificate-in-iis/" title="Create a Self Signed Certificate in IIS">Create a Self Signed Certificate in IIS</a>
-3. Tomcat: <a target="_blank" href="https://dzone.com/articles/setting-ssl-tomcat-5-minutes" title="Setting Up SSL on Tomcat in 5 minutes">Setting Up SSL on Tomcat in 5 minutes</a>
-4. Node.js: <a target="_blank" href="https://nodejs.org/docs/v0.4.1/api/tls.html" title="npm tls">npm tls</a>
+- NGINX: <a target="_blank" href="https://nginx.org/en/docs/http/configuring_https_servers.html" title="Configuring HTTPS servers">Configuring HTTPS servers</a>
+- IIS: <a target="_blank" href="https://aboutssl.org/how-to-create-a-self-signed-certificate-in-iis/" title="Create a Self Signed Certificate in IIS">Create a Self Signed Certificate in IIS</a>
+- Tomcat: <a target="_blank" href="https://dzone.com/articles/setting-ssl-tomcat-5-minutes" title="Setting Up SSL on Tomcat in 5 minutes">Setting Up SSL on Tomcat in 5 minutes</a>
+- Node.js: <a target="_blank" href="https://nodejs.org/docs/v0.4.1/api/tls.html" title="npm tls">npm tls</a>
 
 If the test doesn't go as expected, you can [contact us](https://www.dynamsoft.com/contact/).
 
