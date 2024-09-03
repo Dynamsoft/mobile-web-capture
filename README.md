@@ -14,7 +14,7 @@
 
 ## Samples
 
-- Hello World - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/gettingstarted/helloworld-singlepage.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world/)
+- Hello World - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/gettingstarted/helloworld-singlepage.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world/hello-world.html)
   - Angular App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-angular) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-angular/)
   - React App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-react) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-react/)
   - Vue3 App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-vue3) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-vue3/)
