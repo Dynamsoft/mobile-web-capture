@@ -1,0 +1,43 @@
+html,body {
+    width: 100%;
+    height: 100%;
+    margin:0;
+    padding:0;
+    overscroll-behavior-y: none;
+    overflow: hidden;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+#imageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 0px;
+    justify-content: flex-start
+}
+
+#imageContainer img {
+    width: 90%;
+    height: 60%;
+    object-fit: contain;
+    border:none;
+}
+
+#restore {
+    display: flex;
+    width: 80px;
+    height: 40px;
+    align-items: center;
+    background: #fe8e14;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}

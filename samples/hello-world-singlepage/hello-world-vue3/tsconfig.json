@@ -1,0 +1,20 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "allowJs": true,
+  "compilerOptions": {
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "5.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
+  ]
+}
