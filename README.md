@@ -14,10 +14,10 @@
 
 ## Samples
 
-- Hello World - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/gettingstarted/helloworld-singlepage.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world/)
+- Hello World - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/gettingstarted/helloworld-singlepage.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world/hello-world.html)
   - Angular App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-angular) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-angular/)
   - React App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-react) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-react/)
-  - Vue3 App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-vue3) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/hello-world-singlepage/hello-world-vue3/)
+  - Vue3 App - [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/hello-world-singlepage/hello-world-vue3) \| [Run](https://github.com/Dynamsoft/mobile-web-capture/blob/master/samples/hello-world-singlepage/hello-world-vue3/README.md)
 - Popular use cases
   - Capture Single Page and Then Crop - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/codegallery/usecases/capture-single-page-and-then-crop.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/capture-single-page-and-then-crop) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/capture-single-page-and-then-crop/)
   - Complete Document Capturing Workflow - [Guide](https://www.dynamsoft.com/mobile-web-capture/docs/codegallery/usecases/complete-doc-capturing-workflow.html) \| [Github](https://github.com/Dynamsoft/mobile-web-capture/tree/master/samples/complete-document-capturing-workflow) \| [Run](https://dynamsoft.github.io/mobile-web-capture/samples/complete-document-capturing-workflow/)
