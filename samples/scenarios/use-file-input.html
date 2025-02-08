@@ -23,7 +23,8 @@
       const mobileWebCapture = new Dynamsoft.MobileWebCapture({
         container: document.getElementById("myMobileWebCapture"), // Use this container for the full workflow
         showLibraryView: true,
-        license: "YOUR_LICENSE_KEY_HERE", // Replace this with your actual license key
+        license:
+          "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODI4MTcwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6LTE3NzA1MzE3NDd9", // Replace this with your actual license key
       });
       document.getElementById("initialFile").onchange = async function () {
         const files = Array.from(this.files || []);

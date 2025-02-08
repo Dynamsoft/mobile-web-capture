@@ -114,10 +114,12 @@
 
     <script type="module">
       // Get the current host origin
-      const host = window.location.origin;
+      // const host = window.location.origin;
+      // const BASE_URL = "https://tst.dynamsoft.com/temp/collect/mwc-server-test";
+      const baseUrl = "https://demo.dynamsoft.com/web-twain/web-twain";
 
       // Generate a 10-character session ID
-      const shortSessionID = Math.random().toString(36).substring(2, 12);
+      const sessionId = Math.random().toString(36).substring(2, 12);
 
       const mwcContainer = document.querySelector("#mwc-container");
 
@@ -129,74 +131,105 @@
       const uploadToServer = async (fileName, blob) => {
         try {
           // Configuration
-          // Create form data
           const formData = new FormData();
-          formData.append("uploadFile", blob, fileName);
-          formData.append("fileName", fileName);
-          formData.append("sessionID", shortSessionID);
+          formData.append("RemoteFile", blob, fileName);
+          formData.append("filename", fileName);
+          formData.append("SessionID", sessionId);
 
-          // Upload file
-          const response = await fetch(`${host}/upload`, {
+          const response = await fetch(`${baseUrl}/SaveToFileEx.aspx`, {
             method: "POST",
             body: formData,
           });
 
-          const responseText = await response.text();
-
-          if (!responseText || !responseText.includes("UploadedFileName")) {
-            throw new Error("Invalid server response");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          const serverFileName = responseText.match(/UploadedFileName:(.+)_(\d+)_(.+)$/);
-          if (!serverFileName) {
+          const responseText = await response.text();
+
+          const uploadedFileMatch = responseText.match(/DWTUploadFileName:(.+)UploadedRealFileName:(.+)$/);
+
+          if (!uploadedFileMatch) {
             throw new Error("Failed to parse server response");
           }
 
-          const [, sessionID, uploadTime, realFileName] = serverFileName;
-          const downloadUrl = `${host}/download?fileName=${encodeURIComponent(
-            `${sessionID}_${uploadTime}_${realFileName}`
-          )}`;
+          const [, originalFileName, uploadedPath] = uploadedFileMatch;
+          const [uploadTime] = uploadedPath.split("\\");
 
-          // NOTE: Ensure the object returned contains status, fileName, and downloadUrl
           return {
             status: "success",
-            fileName: realFileName,
-            downloadUrl,
+            fileName: originalFileName,
             uploadTime,
+            fullPath: uploadedPath,
           };
         } catch (error) {
           console.error("Upload failed:", error);
           return {
-            status: "failed",
-            fileName: "",
+            status: "error",
+            error: error.message,
+            fileName: fileName,
           };
         }
       };
 
       const deleteFromServer = async (doc) => {
         try {
-          const response = await fetch(
-            `${host}/delete?fileName=${encodeURIComponent(`${shortSessionID}_${doc.uploadTime}_${doc.fileName}`)}`,
-            {
-              method: "POST",
-            }
-          );
+          const filePath = `${doc.uploadTime}\\${doc.fileName}`;
+
+          const response = await fetch(`${baseUrl}/DeleteFile.aspx?ImageName=${encodeURIComponent(filePath)}`, {
+            method: "POST",
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          // Server returns empty response on success
+          return true;
         } catch (error) {
           console.error("Delete failed:", error);
+          return false;
         }
       };
 
       const downloadFromServer = async (doc) => {
         try {
-          window.open(doc.downloadUrl);
+          const fileExtension = doc.fileName.split(".").pop().toLowerCase();
+          const filePath = `${doc.uploadTime}\\${doc.fileName}`;
+
+          // Build download URL - properly encode components separately
+          const downloadUrl =
+            `${baseUrl}/online_demo_download.aspx?` +
+            `ImageName=${encodeURIComponent(filePath)}&` +
+            `ImageExtName=${fileExtension}`; // Don't encode extension
+
+          console.log(downloadUrl);
+          // Open download in new tab/window
+          window.open(downloadUrl, "_blank");
+          return true;
         } catch (error) {
           console.error("Download failed:", error);
+          return false;
         }
+      };
+
+      export const getContentType = (extension) => {
+        const contentTypes = {
+          bmp: "image/bmp",
+          jpg: "image/jpeg",
+          jpeg: "image/jpeg",
+          tif: "image/tiff",
+          tiff: "image/tiff",
+          png: "image/png",
+          pdf: "application/pdf",
+        };
+        return contentTypes[extension.toLowerCase()] || "application/octet-stream";
       };
 
       // Initialize MWC
       const mobileWebCapture = new Dynamsoft.MobileWebCapture({
-        license: "YOUR_LICENSE_KEY_HERE",
+        license:
+          "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODI4MTcwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6LTE3NzA1MzE3NDd9",
         showLibraryView: true,
         container: mwcContainer,
         exportConfig: {
