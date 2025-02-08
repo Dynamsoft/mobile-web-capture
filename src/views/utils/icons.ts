@@ -94,7 +94,7 @@ export const MWC_ICONS = {
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="1"> <path d="M9 11l3 3l8 -8"></path> <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path> </svg> 
   `,
   downloadPDF: `
- <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <style>
       .cls-1 {
@@ -118,7 +118,7 @@ export const MWC_ICONS = {
 </svg>
   `,
   downloadPNG: `
-    <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 24 24">
   <defs>
     <style>
       .cls-1 {
@@ -262,7 +262,7 @@ export const MWC_ICONS = {
     </svg>
     `,
   uploadPDF: `
-     <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+     <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
       .cls-1 {
@@ -286,7 +286,7 @@ export const MWC_ICONS = {
 </svg>
     `,
   uploadPNG: `
-<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
       .cls-1 {
@@ -310,7 +310,7 @@ export const MWC_ICONS = {
 </svg>
     `,
   sharePDF: `
- <svg id="sharePdf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <svg id="sharePdf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
       .cls-1 {
@@ -333,7 +333,7 @@ export const MWC_ICONS = {
 </svg>
   `,
   sharePNG: `
-<svg id="sharePng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<svg id="sharePng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
       .cls-1 {
@@ -480,7 +480,7 @@ export const MWC_ICONS = {
 </svg>
 `,
   filter: `
-<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 24">
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 24" width="25" height="24" >
   <defs>
     <style>
       .cls-1 {

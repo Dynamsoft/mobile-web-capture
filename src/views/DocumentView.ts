@@ -379,7 +379,7 @@ export class DocumentView extends MWCView {
       },
       {
         id: "mwc-document-select-shareImage",
-        icon: toolbarButtonsConfig?.shareImage?.icon || (canSharePDF ? MWC_ICONS.sharePNG : MWC_ICONS.sharePNG),
+        icon: toolbarButtonsConfig?.shareImage?.icon || (canSharePDF ? MWC_ICONS.sharePNG : MWC_ICONS.downloadPNG),
         label: toolbarButtonsConfig?.shareImage?.label || (canSharePDF ? "Share" : "Download"),
         isHidden: toolbarButtonsConfig?.shareImage?.isHidden,
         className: `selected ${toolbarButtonsConfig?.shareImage?.className || ""}`,

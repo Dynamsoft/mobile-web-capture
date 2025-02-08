@@ -249,7 +249,7 @@ export class PageView extends MWCView {
       },
       {
         id: "mwc-page-share",
-        icon: toolbarButtonsConfig?.share?.icon || (canSharePDF ? MWC_ICONS.sharePNG : MWC_ICONS.sharePNG),
+        icon: toolbarButtonsConfig?.share?.icon || (canSharePDF ? MWC_ICONS.sharePNG : MWC_ICONS.downloadPNG),
         label: toolbarButtonsConfig?.share?.label || (canSharePDF ? "Share" : "Download"),
         isHidden: toolbarButtonsConfig?.share?.isHidden,
         className: `${toolbarButtonsConfig?.share?.className || ""}`,
