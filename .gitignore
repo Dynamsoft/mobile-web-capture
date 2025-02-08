@@ -1,4 +1,4 @@
-# /dist
+# /dist <- only for demo
 node_modules
 dev-server/uploaded/*
 # Allow .md files
