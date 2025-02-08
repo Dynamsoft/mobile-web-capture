@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", 
+    "target": "es2019",
+    "module": "esnext",
+    "outDir": "dds",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./types",
+    "noImplicitAny": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],    
+  "exclude": [
+    "node_modules/**"
+  ]
+}

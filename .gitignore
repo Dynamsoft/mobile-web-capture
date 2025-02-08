@@ -1,0 +1,5 @@
+/dist
+node_modules
+dev-server/uploaded/*
+# Allow .md files
+!dev-server/uploaded/*.md
