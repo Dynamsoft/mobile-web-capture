@@ -1,8 +1,0 @@
-<div id="div-loading" [style.display]="bShowLoading ? 'block' : 'none'">Loading...</div>
-<div id="div-video-btns">
-  <button id="confirm-quad-for-normalization" (click)="confirmTheBoundary()" [disabled]="bDisabledBtnEdit">Confirm the Boundary</button>
-  <button id="normalize-with-confirmed-quad" (click)="normalze()" [disabled]="bDisabledBtnNor">Normalize</button>
-</div>
-<div id="div-ui-container" [style.display]="bShowUiContainer ? 'block' : 'none'" style="margin-top: 10px; height: 500px;" #cameraViewContainerRef></div>
-<div id="div-image-container" [style.display]="bShowImageContainer ? 'block' : 'none'" style="width: 100vw; height: 70vh;" #imageEditorViewContainerRef></div>
-<div id="normalized-result" #normalizedImageContainerRef></div>

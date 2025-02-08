@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Web Capture - Use File Input</title>
+    <script src="../../dist/mwc.bundle.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="file" id="initialFile" accept="image/*,application/pdf" />
+    <div id="myMobileWebCapture" style="width: 80vw; height: 80vh"></div>
+    <script>
+      // Instantiate a Mobile Web Capture Object
+      const mobileWebCapture = new Dynamsoft.MobileWebCapture({
+        container: document.getElementById("myMobileWebCapture"), // Use this container for the full workflow
+        showLibraryView: true,
+        license: "YOUR_LICENSE_KEY_HERE", // Replace this with your actual license key
+      });
+      document.getElementById("initialFile").onchange = async function () {
+        const files = Array.from(this.files || []);
+        if (files.length) {
+          // Launch the Mobile Web Capture instance with an initial file
+          await mobileWebCapture.launch(files[0]);
+        }
+      };
+    </script>
+  </body>
+</html>

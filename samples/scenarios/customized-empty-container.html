@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Web Capture - Customized Empty Container</title>
+    <script src="../../dist/mwc.bundle.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module">
+      // Initialize a Mobile Web Capture Object
+      const mobileWebCapture = new Dynamsoft.MobileWebCapture({
+        license: "YOUR_LICENSE_KEY_HERE",
+        showLibraryView: true,
+        libraryViewConfig: {
+          emptyContentConfig: {
+            templatePath: "../demo/assets/emptyContentTemplate.html",
+          },
+        },
+      });
+      // Launch
+      (async () => await mobileWebCapture.launch())();
+    </script>
+  </body>
+</html>

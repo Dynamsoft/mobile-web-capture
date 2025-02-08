@@ -1,0 +1,68 @@
+{
+  "name": "dynamsoft-mobile-web-capture",
+  "version": "3.0.0",
+  "description": "Mobile Web Capture (MWC) is an SDK for scanning multi-page documents, enhancing Dynamsoft Document Scanner (DDS) with multi-document management, annotation, and uploading.",
+  "main": "./dist/mwc.bundle.js",
+  "module": "./dist/mwc.bundle.mjs",
+  "files": [
+    "/dist",
+    "/LICENSE"
+  ],
+  "sideEffects": true,
+  "exports": {
+    "import": {
+      "types": "./dist/mwc.bundle.esm.d.ts",
+      "default": "./dist/mwc.bundle.mjs"
+    },
+    "require": {
+      "types": "./dist/mwc.bundle.d.ts",
+      "default": "./dist/mwc.bundle.js"
+    }
+  },
+  "types": "./dist/mwc.bundle.esm.d.ts",
+  "type": "module",
+  "scripts": {
+    "serve": "node dev-server/index.js",
+    "build": "rollup -c",
+    "build:production": "rollup -c --environment BUILD:production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dynamsoft/mobile-web-capture"
+  },
+  "keywords": [
+    "document scanning",
+    "js",
+    "javascript"
+  ],
+  "author": {
+    "name": "Dynamsoft",
+    "url": "https://www.dynamsoft.com"
+  },
+  "maintainers": [
+    {
+      "name": "Dynamsoft",
+      "email": "support@dynamsoft.com"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://www.dynamsoft.com",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.11.6",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "formidable": "^3.5.2",
+    "rollup": "^4.9.5",
+    "rollup-plugin-dts": "^6.1.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dynamsoft-document-scanner": "1.1.0",
+    "dynamsoft-document-viewer": "2.1.0"
+  }
+}
