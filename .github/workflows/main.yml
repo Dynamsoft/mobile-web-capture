@@ -28,6 +28,7 @@ jobs:
           
           # Copy index.html and assets from demo
           cp /home/ubuntu/dynamsoft-mobile-web-capture/samples/demo/index.html /home/ubuntu/dynamsoft-mobile-web-capture/deploy/
+          cp /home/ubuntu/dynamsoft-mobile-web-capture/samples/demo/dev-index.html /home/ubuntu/dynamsoft-mobile-web-capture/deploy/
           cp -r /home/ubuntu/dynamsoft-mobile-web-capture/samples/demo/assets /home/ubuntu/dynamsoft-mobile-web-capture/deploy/
           
           # Copy scenario files
