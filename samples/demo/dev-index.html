@@ -116,6 +116,12 @@
       </span>
     </div>
     <script type="module">
+      const mwcContainer = document.querySelector("#mwc-container");
+      // Homepage Element
+      const homepageContainer = document.querySelector("#homepage");
+      // Start MWC btn
+      const startMWCbtn = document.querySelector(".start-mwc-btn");
+
       // Get the current host origin
       // const host = window.location.origin;
       const baseUrl = "https://demo.dynamsoft.com/web-twain/web-twain";
@@ -139,7 +145,7 @@
         }
       }
 
-      let vSessionId = await getSessionId();
+      let vSessionID = await getSessionId();
 
       const uploadToServer = async (fileName, blob) => {
         try {
