@@ -115,40 +115,34 @@
         <a href="https://www.dynamsoft.com/sitemap/" target="_blank">Site Map.</a>
       </span>
     </div>
-
-    <iframe
-      src="https://demo.dynamsoft.com/web-twain/web-twain/Default.aspx"
-      style="width: 0; height: 0; border: 0; display: none"
-      id="dwt_iframe"
-      frameborder="0"
-    ></iframe>
     <script type="module">
-      let vSessionID;
-
-      document.getElementById("dwt_iframe").onload = function () {
-        try {
-          vSessionID = this.contentWindow.vSessionID;
-        } catch (e) {
-          console.error("Error getting session ID:", e);
-        }
-      };
-
-      console.log(vSessionID);
       // Get the current host origin
       // const host = window.location.origin;
-      // const baseUrl = "https://tst.dynamsoft.com/temp/collect/mwc-server-test";
       const baseUrl = "https://demo.dynamsoft.com/web-twain/web-twain";
 
-      const mwcContainer = document.querySelector("#mwc-container");
+      async function getSessionId() {
+        try {
+          // Make sure to use credentials to maintain session cookies
+          const response = await fetch(`${baseUrl}/Default.aspx`, {
+            credentials: "include",
+          });
+          const text = await response.text();
 
-      // Homepage Element
-      const homepageContainer = document.querySelector("#homepage");
-      // Start MWC btn
-      const startMWCbtn = document.querySelector(".start-mwc-btn");
+          const match = text.match(/vSessionID\s*=\s*'([^']+)'/);
+          if (match && match[1]) {
+            return match[1];
+          }
+          throw new Error("Could not find session ID");
+        } catch (error) {
+          console.error("Failed to get session ID:", error);
+          return null;
+        }
+      }
+
+      let vSessionId = await getSessionId();
 
       const uploadToServer = async (fileName, blob) => {
         try {
-          // Configuration
           const formData = new FormData();
           formData.append("RemoteFile", blob, fileName);
           formData.append("filename", fileName);
@@ -157,6 +151,7 @@
           const response = await fetch(`${baseUrl}/SaveToFileEx.aspx`, {
             method: "POST",
             body: formData,
+            credentials: "include", // Include credentials for session cookies
           });
 
           if (!response.ok) {
@@ -164,7 +159,6 @@
           }
 
           const responseText = await response.text();
-
           const uploadedFileMatch = responseText.match(/DWTUploadFileName:(.+)UploadedRealFileName:(.+)$/);
 
           if (!uploadedFileMatch) {
@@ -196,13 +190,13 @@
 
           const response = await fetch(`${baseUrl}/DeleteFile.aspx?ImageName=${encodeURIComponent(filePath)}`, {
             method: "POST",
+            credentials: "include", // Include credentials for session cookies
           });
 
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          // Server returns empty response on success
           return true;
         } catch (error) {
           console.error("Delete failed:", error);
@@ -215,14 +209,20 @@
           const fileExtension = doc.fileName.split(".").pop().toLowerCase();
           const filePath = `${doc.uploadTime}\\${doc.fileName}`;
 
-          // Build download URL - properly encode components separately
-          const downloadUrl =
-            `${baseUrl}/online_demo_download.aspx?` +
-            `ImageName=${encodeURIComponent(filePath)}&` +
-            `ImageExtName=${fileExtension}`; // Don't encode extension
+          // For downloads, create a URL with credentials included
+          const downloadUrl = new URL(`${baseUrl}/online_demo_download.aspx`);
+          downloadUrl.searchParams.set("ImageName", filePath);
+          downloadUrl.searchParams.set("ImageExtName", fileExtension);
 
-          // Open download in new tab/window
-          window.open(downloadUrl, "_blank");
+          // For downloads, we need to handle cookies differently since window.open doesn't
+          // support the credentials option. Instead, we'll first make a fetch request
+          // to ensure the session is established
+          await fetch(downloadUrl.toString(), {
+            credentials: "include",
+          });
+
+          // Then open the download in a new window
+          window.open(downloadUrl.toString(), "_blank");
           return true;
         } catch (error) {
           console.error("Download failed:", error);
