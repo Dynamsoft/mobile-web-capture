@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="quadrilateral detection and normalization" />
+    <title>Mobile Web Capture Demo | Dynamsoft</title>
+    <meta
+      name="description"
+      content="Mobile Web Capture demo enables capturing document images via mobile browsers and it organizes captured images into documents, with each document encompassing one or more pages."
+    />
+    <script src="./dist/mwc.bundle.js"></script>
+  </head>
+
+  <body>
+    <div class="qr-code-banner">
+      <img src="./assets/mwc-qrcode.svg" alt="https://demo.dynamsoft.com/mobile-web-capture" />
+      <div>
+        Please scan the QR code with your mobile phone to experience how the demo functions in a real mobile browser.
+      </div>
+    </div>
+    <div id="rotationMessage" class="rotation-message" style="display: none">
+      <div class="rotation-content">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+          <path d="M21 3v5h-5" />
+        </svg>
+        <span>Please rotate your device to portrait mode</span>
+      </div>
+    </div>
+    <div class="info-header">
+      <span>Mobile Web Capture</span>
+    </div>
+    <div id="app">
+      <div id="homepage">
+        <div class="beta-banner">
+          Note: This product is in beta.
+          <a target="_blank" href="https://www.dynamsoft.com/beta-program/">View Beta Program</a>
+        </div>
+        <img src="./assets/homepage-img.svg" alt="homepage-img" style="width: 60%; margin-top: 2rem" />
+        <a href="https://www.dynamsoft.com/" target="_blank">
+          <img src="./assets/dynamsoftLogo.svg" alt="logo" />
+        </a>
+        <span class="guide-title" style="color: black">MOBILE WEB CAPTURE</span>
+        <div class="guide-textBox" style="display: flex">
+          <span>Capture document from cameras</span>
+          <span>in mobile browsers</span>
+        </div>
+        <div class="start-mwc-btn">Get Started</div>
+        <div class="learn-more-btns">
+          <a href="https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture.html" target="_blank"
+            ><span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="24"
+                height="24"
+                stroke-width="1"
+              >
+                <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                <path d="M3 6l0 13"></path>
+                <path d="M12 6l0 13"></path>
+                <path d="M21 6l0 13"></path>
+              </svg>
+              View Dev Guide
+            </span>
+          </a>
+          <a href="https://www.github.com/dynamsoft/mobile-web-capture" target="_blank"
+            ><span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M7 8l-4 4l4 4" />
+                <path d="M17 8l4 4l-4 4" />
+                <path d="M14 4l-4 16" />
+              </svg>
+              Get Demo Code
+            </span></a
+          >
+        </div>
+      </div>
+      <!-- ↓  Required elements for MWC -->
+      <div id="mwc-container" style="height: 100%; display: none"></div>
+      <!-- ↑  Required elements for MWC -->
+    </div>
+    <div class="info-footer">
+      <span>
+        © 2003 – 2025 Dynamsoft. All rights reserved.
+        <a href="https://www.dynamsoft.com/privacy-statement/" target="_blank">Privacy Statement</a>
+        /
+        <a href="https://www.dynamsoft.com/sitemap/" target="_blank">Site Map.</a>
+      </span>
+    </div>
+
+    <iframe
+      src="https://demo.dynamsoft.com/web-twain/web-twain/Default.aspx"
+      style="width: 0; height: 0; border: 0; display: none"
+      id="dwt_iframe"
+      frameborder="0"
+    ></iframe>
+    <script type="module">
+      let vSessionID;
+
+      document.getElementById("dwt_iframe").onload = function () {
+        try {
+          vSessionID = this.contentWindow.vSessionID;
+        } catch (e) {
+          console.error("Error getting session ID:", e);
+        }
+      };
+
+      console.log(vSessionID);
+      // Get the current host origin
+      // const host = window.location.origin;
+      // const baseUrl = "https://tst.dynamsoft.com/temp/collect/mwc-server-test";
+      const baseUrl = "https://demo.dynamsoft.com/web-twain/web-twain";
+
+      const mwcContainer = document.querySelector("#mwc-container");
+
+      // Homepage Element
+      const homepageContainer = document.querySelector("#homepage");
+      // Start MWC btn
+      const startMWCbtn = document.querySelector(".start-mwc-btn");
+
+      const uploadToServer = async (fileName, blob) => {
+        try {
+          // Configuration
+          const formData = new FormData();
+          formData.append("RemoteFile", blob, fileName);
+          formData.append("filename", fileName);
+          formData.append("SessionID", vSessionID);
+
+          const response = await fetch(`${baseUrl}/SaveToFileEx.aspx`, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const responseText = await response.text();
+
+          const uploadedFileMatch = responseText.match(/DWTUploadFileName:(.+)UploadedRealFileName:(.+)$/);
+
+          if (!uploadedFileMatch) {
+            throw new Error("Failed to parse server response");
+          }
+
+          const [, originalFileName, uploadedPath] = uploadedFileMatch;
+          const [uploadTime] = uploadedPath.split("\\");
+
+          return {
+            status: "success",
+            fileName: originalFileName,
+            uploadTime,
+            fullPath: uploadedPath,
+          };
+        } catch (error) {
+          console.error("Upload failed:", error);
+          return {
+            status: "error",
+            error: error.message,
+            fileName: fileName,
+          };
+        }
+      };
+
+      const deleteFromServer = async (doc) => {
+        try {
+          const filePath = `${doc.uploadTime}\\${doc.fileName}`;
+
+          const response = await fetch(`${baseUrl}/DeleteFile.aspx?ImageName=${encodeURIComponent(filePath)}`, {
+            method: "POST",
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          // Server returns empty response on success
+          return true;
+        } catch (error) {
+          console.error("Delete failed:", error);
+          return false;
+        }
+      };
+
+      const downloadFromServer = async (doc) => {
+        try {
+          const fileExtension = doc.fileName.split(".").pop().toLowerCase();
+          const filePath = `${doc.uploadTime}\\${doc.fileName}`;
+
+          // Build download URL - properly encode components separately
+          const downloadUrl =
+            `${baseUrl}/online_demo_download.aspx?` +
+            `ImageName=${encodeURIComponent(filePath)}&` +
+            `ImageExtName=${fileExtension}`; // Don't encode extension
+
+          // Open download in new tab/window
+          window.open(downloadUrl, "_blank");
+          return true;
+        } catch (error) {
+          console.error("Download failed:", error);
+          return false;
+        }
+      };
+
+      export const getContentType = (extension) => {
+        const contentTypes = {
+          bmp: "image/bmp",
+          jpg: "image/jpeg",
+          jpeg: "image/jpeg",
+          tif: "image/tiff",
+          tiff: "image/tiff",
+          png: "image/png",
+          pdf: "application/pdf",
+        };
+        return contentTypes[extension.toLowerCase()] || "application/octet-stream";
+      };
+
+      // Initialize MWC
+      const mobileWebCapture = new Dynamsoft.MobileWebCapture({
+        license: "", //    "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLXIxNzAzODI4MTcwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMjAwMDAwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6LTE3NzA1MzE3NDd9",
+        showLibraryView: true,
+        container: mwcContainer,
+        exportConfig: {
+          uploadToServer,
+          downloadFromServer,
+          deleteFromServer,
+        },
+        onClose: () => {
+          mwcContainer.style.display = "none";
+          homepageContainer.style.display = "flex";
+        },
+      });
+
+      startMWCbtn.addEventListener("click", async () => {
+        try {
+          // Hide homepage
+          homepageContainer.style.display = "none";
+          // Show MWC container
+          mwcContainer.style.display = "block";
+
+          await mobileWebCapture.launch();
+        } catch (error) {
+          // On error, also restore homepage
+          mwcContainer.style.display = "none";
+          homepageContainer.style.display = "flex";
+          console.error("Capture failed:", error);
+        }
+      });
+
+      // Rotate Phone
+      function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      }
+
+      // Function to handle orientation change
+      function handleOrientation() {
+        const rotationMessage = document.getElementById("rotationMessage");
+        if (isMobile()) {
+          if (window.orientation === 90 || window.orientation === -90) {
+            rotationMessage.style.display = "flex";
+          } else {
+            rotationMessage.style.display = "none";
+          }
+        }
+      }
+
+      // Listen for orientation changes
+      window.addEventListener("orientationchange", handleOrientation);
+      // Also check on load
+      handleOrientation();
+
+      // Alternative method for browsers that don't support window.orientation
+      window.matchMedia("(orientation: landscape)").addListener(function (e) {
+        const rotationMessage = document.getElementById("rotationMessage");
+        if (isMobile()) {
+          if (e.matches) {
+            rotationMessage.style.display = "flex";
+          } else {
+            rotationMessage.style.display = "none";
+          }
+        }
+      });
+    </script>
+  </body>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: column;
+      font-family: Verdana;
+      background: transparent linear-gradient(207deg, #ffffff 0%, #f8f6f2 58%, #ede0d1 100%) 0% 0% no-repeat padding-box;
+    }
+
+    span {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: default;
+    }
+
+    div {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    @media only screen and (max-width: 376px) and (max-height: 611px) {
+      #app {
+        width: 100%;
+        height: 100%;
+        position: absolute !important;
+        left: 0px;
+        top: 0px;
+      }
+
+      #homepage {
+        background: linear-gradient(to bottom, white, #f8f6f2, #ede0d1);
+      }
+    }
+
+    @media only screen and (max-width: 1024px) {
+      #app {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        min-width: 340px;
+        min-height: 605px;
+      }
+
+      .qr-code-banner,
+      .info-header,
+      .info-footer {
+        display: none !important;
+      }
+    }
+
+    @media only screen and (min-width: 1025px) and (min-height: 701px) {
+      #app {
+        width: 375px;
+        height: 667px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+    }
+
+    @media only screen and (min-width: 1025px) and (max-height: 700px) {
+      #app {
+        width: 375px;
+        height: 667px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      .qr-code-banner,
+      .info-header,
+      .info-footer {
+        display: none !important;
+      }
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      font-size: 14px;
+      color: #606060;
+    }
+
+    .info-header span {
+      cursor: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      text-align: center;
+    }
+
+    .info-header span:first-of-type {
+      font-size: 24px;
+      font-weight: 600;
+      color: #323234;
+      cursor: default;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .info-footer {
+      font-size: 14px;
+      color: #606060;
+    }
+
+    /* Home page */
+
+    #app {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #homepage {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      background: linear-gradient(to bottom, white, #f8f6f2, #ede0d1);
+    }
+
+    #homepage > img:first-child {
+      margin-bottom: 60px;
+      max-width: 348px;
+      width: 100%;
+    }
+
+    .beta-banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #306877;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      gap: 0.2rem;
+      font-size: 12px;
+    }
+
+    .beta-banner a {
+      color: white;
+    }
+
+    .guide-title {
+      font-size: 28px;
+      margin-top: 16px;
+    }
+
+    .guide-textBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 3px;
+      color: #323234;
+    }
+
+    .start-mwc-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: calc(100% - 2rem);
+      max-width: 300px;
+      height: 54px;
+      font-size: 24px;
+      border-radius: 27px;
+      margin-top: 3rem;
+      background: #fe8e14;
+      cursor: pointer;
+      color: white;
+    }
+
+    .learn-more-btns {
+      width: calc(100% - 2rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .learn-more-btns a {
+      text-decoration: none;
+    }
+
+    .learn-more-btns a:hover {
+      opacity: 0.6;
+    }
+
+    .learn-more-btns a span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      gap: 0.25rem;
+      color: #4b5563;
+      text-decoration: underline;
+    }
+
+    .qr-code-banner {
+      position: absolute;
+      right: 0px;
+      bottom: 125px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 300px;
+      padding: 1rem;
+      box-sizing: border-box;
+      background: white;
+      box-shadow: 0px 2px 4px #00000029;
+
+      font-size: 12px;
+    }
+  </style>
+  <style id="rotate-phone-style">
+    .rotation-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+    }
+
+    .rotation-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .rotation-content svg {
+      width: 48px;
+      height: 48px;
+      animation: rotate 2s infinite linear;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</html>
