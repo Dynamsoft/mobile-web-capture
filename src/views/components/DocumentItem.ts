@@ -126,7 +126,7 @@ export class DocumentItem {
     const pagesElement = this.dom.querySelector(".mwc-document-pages");
 
     nameElement.textContent = doc.name;
-    pagesElement.textContent = `${doc.pages.length} pages`;
+    pagesElement.textContent = doc.pages.length === 1 ? "1 page" : `${doc.pages.length} pages`;
 
     this.updateThumbnail(doc);
   }

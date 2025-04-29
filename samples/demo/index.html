@@ -129,6 +129,7 @@
       const uploadToServer = async (fileName, blob) => {
         try {
           // Configuration
+
           // Create form data
           const formData = new FormData();
           formData.append("uploadFile", blob, fileName);
@@ -222,7 +223,7 @@
           // On error, also restore homepage
           mwcContainer.style.display = "none";
           homepageContainer.style.display = "flex";
-          console.error("Capture failed:", error);
+          alert(error);
         }
       });
 

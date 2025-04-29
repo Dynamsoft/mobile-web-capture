@@ -81,7 +81,7 @@ const DEFAULT_HISTORY_ITEM_STYLE = `
   flex-direction: column;
   font-family: Verdana;
   padding: 16px;
-  border-bottom: 1px solid #F5F5F5;
+  border-bottom: 1px solid #e6e6e6;
 }
 
 .mwc-library-view-history-item:last-child {

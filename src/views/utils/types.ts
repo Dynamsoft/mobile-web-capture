@@ -5,9 +5,10 @@ export enum EnumMWCViews {
   Document = "document",
   Transfer = "transfer",
   History = "history",
+  Scanner = "Scanner",
 }
 
-export type EnumMWCStartingViews = EnumMWCViews.Library | EnumMWCViews.Document;
+export type EnumMWCStartingViews = EnumMWCViews.Library | EnumMWCViews.Document | EnumMWCViews.Scanner;
 
 export enum EnumAllViews {
   Library = "library",
