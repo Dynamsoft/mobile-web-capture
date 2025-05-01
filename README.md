@@ -108,7 +108,7 @@ Below is the complete **Hello World** sample page that uses this precompiled scr
       });
       (async () => {
         // Launch the Mobile Web Capture Instance
-        const fileName = `New_Document_${Date.now().toString().slice(-5)}`;
+        const fileName = `New_Document_${Date.now().toString()}`;
         await mobileWebCapture.launch(fileName);
       })();
     </script>
@@ -178,7 +178,7 @@ This step creates the **MWC** UI, which, when launched, occupies the entire visi
 ### Launch MWC
 
 ```javascript
-const fileName = `New_Document_${Date.now().toString().slice(-5)}`; // Generates a unique filename to use as the initial document name
+const fileName = `New_Document_${Date.now().toString()}`; // Generates a unique filename to use as the initial document name
 await mobileWebCapture.launch(fileName);
 ```
 
