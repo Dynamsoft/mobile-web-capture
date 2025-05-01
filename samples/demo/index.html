@@ -16,9 +16,7 @@
   <body>
     <div class="qr-code-banner">
       <img src="./assets/mwc-qrcode.svg" alt="https://demo.dynamsoft.com/mobile-web-capture" />
-      <div>
-        Please scan the QR code with your mobile phone to experience how the demo functions in a real mobile browser.
-      </div>
+      <div>Scan to Open on Mobile</div>
     </div>
     <div id="rotationMessage" class="rotation-message" style="display: none">
       <div class="rotation-content">
@@ -39,46 +37,38 @@
         <span>Please rotate your device to portrait mode</span>
       </div>
     </div>
-    <div class="info-header">
-      <span>Mobile Web Capture</span>
-    </div>
     <div id="app">
       <div id="homepage">
-        <img src="./assets/homepage-img.svg" alt="homepage-img" />
         <a href="https://www.dynamsoft.com/" target="_blank">
           <img src="./assets/dynamsoftLogo.svg" alt="logo" />
         </a>
         <span class="guide-title" style="color: black">MOBILE WEB CAPTURE</span>
-        <div class="guide-textBox" style="display: flex">
-          <span>Capture document from cameras</span>
-          <span>in mobile browsers</span>
-        </div>
+        <div class="guide-textBox">Effortless Mobile Document Capture</div>
+        <img src="./assets/homepage-img.svg" alt="homepage-img" class="homepage-img" />
+
         <div class="start-mwc-btn">Get Started</div>
         <div class="learn-more-btns">
-          <a href="https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture.html" target="_blank"
-            ><span>
+          <a href="https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture.html" target="_blank">
+            <span style="border-bottom: 1.5px solid black">
+              View Dev Guide
               <svg
                 xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                width="24"
-                height="24"
-                stroke-width="1"
               >
-                <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
-                <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
-                <path d="M3 6l0 13"></path>
-                <path d="M12 6l0 13"></path>
-                <path d="M21 6l0 13"></path>
+                <path d="M9 6l6 6l-6 6" />
               </svg>
-              Learn More
             </span>
           </a>
-          <a href="https://www.github.com/dynamsoft/mobile-web-capture" target="_blank"
-            ><span>
+          <a href="https://www.github.com/dynamsoft/mobile-web-capture" target="_blank">
+            <span style="border-bottom: 1.5px solid black">
+              Get Demo Code
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -86,45 +76,41 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <path d="M7 8l-4 4l4 4" />
-                <path d="M17 8l4 4l-4 4" />
-                <path d="M14 4l-4 16" />
+                <path d="M9 6l6 6l-6 6" />
               </svg>
-              Get Demo Code
-            </span></a
-          >
+            </span>
+          </a>
+        </div>
+        <div class="info-footer">
+          © 2003 - 2025 Dynamsoft. All rights reserved.
+          <span>
+            <a href="https://www.dynamsoft.com/privacy-statement/" target="_blank">Privacy Statement</a>
+            /
+            <a href="https://www.dynamsoft.com/sitemap/" target="_blank">Site Map.</a>
+          </span>
         </div>
       </div>
       <!-- ↓  Required elements for MWC -->
       <div id="mwc-container" style="height: 100%; display: none"></div>
       <!-- ↑  Required elements for MWC -->
     </div>
-    <div class="info-footer">
-      <span>
-        © 2003 – 2025 Dynamsoft. All rights reserved.
-        <a href="https://www.dynamsoft.com/privacy-statement/" target="_blank">Privacy Statement</a>
-        /
-        <a href="https://www.dynamsoft.com/sitemap/" target="_blank">Site Map.</a>
-      </span>
-    </div>
-
     <script type="module">
+      const appContainer = document.querySelector("#app");
+      const mwcContainer = document.querySelector("#mwc-container");
+      // Homepage Element
+      const homepageContainer = document.querySelector("#homepage");
+      // Start MWC btn
+      const startMWCbtn = document.querySelector(".start-mwc-btn");
+
       // Get the current host origin
       const host = window.location.origin;
 
       // Generate a 10-character session ID
       const shortSessionID = Math.random().toString(36).substring(2, 12);
-
-      const mwcContainer = document.querySelector("#mwc-container");
-
-      // Homepage Element
-      const homepageContainer = document.querySelector("#homepage");
-      // Start MWC btn
-      const startMWCbtn = document.querySelector(".start-mwc-btn");
 
       const uploadToServer = async (fileName, blob) => {
         try {
@@ -207,6 +193,7 @@
         onClose: () => {
           mwcContainer.style.display = "none";
           homepageContainer.style.display = "flex";
+          appContainer.style.boxShadow = "none";
         },
       });
 
@@ -216,12 +203,16 @@
           homepageContainer.style.display = "none";
           // Show MWC container
           mwcContainer.style.display = "block";
+          appContainer.style.boxShadow = "0px 2px 4px #00000029";
 
           await mobileWebCapture.launch();
         } catch (error) {
           // On error, also restore homepage
           mwcContainer.style.display = "none";
           homepageContainer.style.display = "flex";
+          appContainer.style.boxShadow = "none";
+
+          alert(error);
           console.error("Capture failed:", error);
         }
       });
@@ -262,6 +253,11 @@
     </script>
   </body>
   <style>
+    @font-face {
+      font-family: "OpenSans-Regular";
+      src: url("./font/OpenSans-Regular.ttf");
+    }
+
     html,
     body {
       width: 100%;
@@ -272,9 +268,8 @@
       align-items: center;
       justify-content: space-around;
       flex-direction: column;
-      font-family: Verdana;
-
-      background: transparent linear-gradient(207deg, #ffffff 0%, #f8f6f2 58%, #ede0d1 100%) 0% 0% no-repeat padding-box;
+      font-family: OpenSans-Regular;
+      background: transparent linear-gradient(243deg, #ffffff 0%, #f8f6f2 58%, #ede0d1 100%) 0% 0% no-repeat padding-box;
     }
 
     span {
@@ -288,6 +283,11 @@
       -webkit-user-select: none;
     }
 
+    .homepage-img {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
     @media only screen and (max-width: 376px) and (max-height: 611px) {
       #app {
         width: 100%;
@@ -296,10 +296,6 @@
         left: 0px;
         top: 0px;
       }
-
-      #homepage {
-        background: linear-gradient(to bottom, white, #f8f6f2, #ede0d1);
-      }
     }
 
     @media only screen and (max-width: 1024px) {
@@ -307,95 +303,42 @@
         width: 100%;
         height: 100%;
         position: relative;
-        min-width: 340px;
-        min-height: 605px;
+        overflow-y: auto;
       }
 
-      .info-header,
-      .info-footer {
+      .qr-code-banner {
         display: none !important;
       }
     }
 
-    @media only screen and (min-width: 1025px) and (min-height: 701px) {
+    @media only screen and (min-width: 1025px) {
       #app {
-        width: 375px;
-        height: 667px;
+        aspect-ratio: 9 / 16;
+        height: 100%;
+        width: auto;
+
         position: relative;
         overflow: hidden;
         border-radius: 8px;
+        margin-top: 3rem;
+        margin-bottom: 3rem;
       }
-    }
-
-    @media only screen and (min-width: 1025px) and (max-height: 700px) {
-      #app {
-        width: 375px;
-        height: 667px;
-        position: relative;
-        overflow: hidden;
-        border-radius: 8px;
-      }
-
-      .info-header,
-      .info-footer {
-        display: none !important;
-      }
-    }
-
-    .info-header {
-      display: flex;
-      align-items: center;
-      gap: 4rem;
-      font-size: 14px;
-      color: #606060;
-    }
-
-    .info-header span {
-      cursor: auto;
-      user-select: none;
-      -webkit-user-select: none;
-      text-align: center;
-    }
-
-    .info-header span:first-of-type {
-      font-size: 24px;
-      font-weight: 600;
-      color: #323234;
-      cursor: default;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .info-footer {
-      font-size: 14px;
-      color: #606060;
-    }
-
-    /* Home page */
-
-    #app {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     #homepage {
+      position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       height: 100%;
       flex-direction: column;
-      background: linear-gradient(to bottom, white, #f8f6f2, #ede0d1);
-    }
-
-    #homepage > img:first-child {
-      margin-bottom: 60px;
-      max-width: 348px;
-      width: 100%;
     }
 
     .guide-title {
       font-size: 28px;
       margin-top: 16px;
+      text-align: center;
     }
 
     .guide-textBox {
@@ -405,6 +348,8 @@
       flex-direction: column;
       margin-top: 3px;
       color: #323234;
+      font-size: 18px;
+      text-align: center;
     }
 
     .start-mwc-btn {
@@ -412,11 +357,9 @@
       justify-content: center;
       align-items: center;
       width: calc(100% - 2rem);
-      max-width: 300px;
+      max-width: 250px;
       height: 54px;
       font-size: 24px;
-      border-radius: 27px;
-      margin-top: 30px;
       background: #fe8e14;
       cursor: pointer;
       color: white;
@@ -427,9 +370,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: 45px;
+      margin-top: 1.5rem;
     }
+
     .learn-more-btns a {
       text-decoration: none;
     }
@@ -443,25 +387,40 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      gap: 0.25rem;
-      color: #4b5563;
-      text-decoration: underline;
+      color: black;
+      font-size: 14px;
+    }
+
+    .learn-more-btns a span svg {
+      width: 16px;
+      height: 16px;
     }
 
     .qr-code-banner {
       position: absolute;
       right: 0px;
-      bottom: 125px;
+      bottom: 20%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 1rem;
-      width: 300px;
-      padding: 1rem;
-      box-sizing: border-box;
-      background: white;
+      padding: 2rem;
+      background: #323234 0% 0% no-repeat padding-box;
       box-shadow: 0px 2px 4px #00000029;
+      border-radius: 10px 0px 0px 10px;
+      opacity: 1;
+      color: white;
+      font-size: 16px;
+      z-index: 5;
+    }
 
-      font-size: 12px;
+    .info-footer {
+      display: flex;
+      padding-top: 2rem;
+      flex-direction: column;
+      align-items: center;
+      font-size: 14px;
+      color: #606060;
     }
   </style>
   <style id="rotate-phone-style">

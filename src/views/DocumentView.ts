@@ -5,7 +5,6 @@ import { ModalType, ModalVariant, showModal, showToast } from "./components/Moda
 import MWCView, { EmptyContentConfig, ToolbarButtonConfig } from "./components/ViewCreator";
 import { createStyle, isMobile } from "./utils";
 import { TransferMode } from "./TransferView";
-
 export interface DocumentToolbarButtonsConfig {
   backToLibrary?: ToolbarButtonConfig;
   capture?: ToolbarButtonConfig;
@@ -17,7 +16,7 @@ export interface DocumentToolbarButtonsConfig {
   // Selected Toolbar Options
   copyTo?: ToolbarButtonConfig;
   moveTo?: ToolbarButtonConfig;
-  selectAll?: ToolbarButtonConfig;
+  // selectAll?: ToolbarButtonConfig; moved from toolbar to header
   deleteImage?: ToolbarButtonConfig;
   shareImage?: ToolbarButtonConfig;
   uploadImage?: ToolbarButtonConfig;
@@ -49,6 +48,12 @@ export interface DocumentViewConfig {
   toolbarButtonsConfig?: DocumentToolbarButtonsConfig;
 }
 
+interface DocumentHeaderAction {
+  close: HTMLElement;
+  cancel: HTMLElement;
+  selectAll: HTMLElement;
+}
+
 export class DocumentView extends MWCView {
   private documentTitle: HTMLElement = null;
   private headerRenameTitleBtn: HTMLElement = null;
@@ -64,17 +69,18 @@ export class DocumentView extends MWCView {
     // Selected Toolbar Options
     copyTo: null,
     moveTo: null,
-    selectAll: null,
+    // selectAll: null,
     deleteImage: null,
     shareImage: null,
     uploadImage: null,
     back: null,
   };
 
-  private headerActionBtn: {
-    close: HTMLElement;
-  } = {
+  private headerTitle: HTMLElement = null;
+  private headerActionBtn: DocumentHeaderAction = {
     close: null,
+    cancel: null,
+    selectAll: null,
   };
 
   browseViewer: BrowseViewer = null;
@@ -135,7 +141,7 @@ export class DocumentView extends MWCView {
 
     if (visible) {
       const hasDoc = doc && doc.pages.length > 0;
-      this.updateHeaderTitle();
+      this.updateHeaderActionBtnStyle();
       this.showContent(hasDoc);
 
       this.updateToolbarBtnStates();
@@ -162,7 +168,7 @@ export class DocumentView extends MWCView {
           visibility: "hidden",
         },
         currentPageStyle: { border: "2px solid #FE8E14" },
-        pageStyle: { background: "#F5F5F5" },
+        pageStyle: { background: "#e6e6e6" },
       },
     });
 
@@ -180,9 +186,15 @@ export class DocumentView extends MWCView {
           ${MWC_ICONS.edit}
         </button>
       </div>
-      <button type="button" class="mwc-document-view-header-btn close">
-        ${MWC_ICONS.close}
-      </button>
+      <div class="mwc-document-view-header-actions">
+        <button type="button" class="mwc-document-view-header-btn selectAll">Select All</button>
+        <button type="button" class="mwc-document-view-header-btn cancel">Cancel</button>
+        <button type="button" class="mwc-document-view-header-btn close" style="display: ${
+          this.config.showLibraryView ? "none" : "flex"
+        }">
+          ${MWC_ICONS.close}
+        </button>
+      </div>
     </div>
     `;
 
@@ -194,6 +206,37 @@ export class DocumentView extends MWCView {
 
     this.headerActionBtn.close = this.MWCViewElements.headerContainer.querySelector(".close");
     this.headerActionBtn.close.addEventListener("click", () => this.handleClose());
+
+    // Add the new action buttons
+    this.headerActionBtn.selectAll = this.MWCViewElements.headerContainer.querySelector(".selectAll");
+    this.headerActionBtn.selectAll.addEventListener("click", () => this.handleSelectAll());
+
+    this.headerActionBtn.cancel = this.MWCViewElements.headerContainer.querySelector(".cancel");
+    this.headerActionBtn.cancel.addEventListener("click", () => this.handleSelectAll()); // Toggle select all cancel
+
+    // Initialize the header action buttons visibility
+    this.updateHeaderActionBtnStyle();
+  }
+
+  private updateHeaderActionBtnStyle() {
+    if (this.isSelectionMode) {
+      this.documentTitle.textContent = "Select Pages";
+      this.headerRenameTitleBtn.style.display = "none";
+
+      this.headerActionBtn.close.style.display = "none";
+
+      const allPagesSelected =
+        this.browseViewer.getSelectedPageIndices().length === this.browseViewer.currentDocument.pages.length;
+      this.headerActionBtn.selectAll.style.display = allPagesSelected ? "none" : "flex";
+      this.headerActionBtn.cancel.style.display = allPagesSelected ? "flex" : "none";
+    } else {
+      this.updateHeaderTitle();
+      this.headerRenameTitleBtn.style.display = "flex";
+
+      this.headerActionBtn.close.style.display = this.config.showLibraryView ? "none" : "flex";
+      this.headerActionBtn.selectAll.style.display = "none";
+      this.headerActionBtn.cancel.style.display = "none";
+    }
   }
 
   protected updateHeaderTitle() {
@@ -242,6 +285,10 @@ export class DocumentView extends MWCView {
   }
 
   private handleClose() {
+    // Dont show close button if library view is shown
+    if (this.config.showLibraryView) {
+      return;
+    }
     try {
       this.config?.onClose();
     } catch (error) {
@@ -361,14 +408,14 @@ export class DocumentView extends MWCView {
         isHidden: toolbarButtonsConfig?.moveTo?.isHidden || !showLibraryView,
         onClick: () => this.handleTransferPage(TransferMode.Move),
       },
-      {
-        id: "mwc-document-select-selectAll",
-        icon: toolbarButtonsConfig?.selectAll?.icon || MWC_ICONS.selectAll,
-        label: toolbarButtonsConfig?.selectAll?.label || "Select All",
-        isHidden: toolbarButtonsConfig?.selectAll?.isHidden,
-        className: `selected ${toolbarButtonsConfig?.selectAll?.className || ""}`,
-        onClick: () => this.handleSelectAll(),
-      },
+      // {
+      //   id: "mwc-document-select-selectAll",
+      //   icon: toolbarButtonsConfig?.selectAll?.icon || MWC_ICONS.selectAll,
+      //   label: toolbarButtonsConfig?.selectAll?.label || "Select All",
+      //   isHidden: toolbarButtonsConfig?.selectAll?.isHidden,
+      //   className: `selected ${toolbarButtonsConfig?.selectAll?.className || ""}`,
+      //   onClick: () => this.handleSelectAll(),
+      // },
       {
         id: "mwc-library-select-deleteImage",
         icon: toolbarButtonsConfig?.deleteImage?.icon || MWC_ICONS.delete,
@@ -419,6 +466,7 @@ export class DocumentView extends MWCView {
       const pdfBlob = await doc.saveToPdf({
         mimeType: "application/octet-stream",
         saveAnnotation: "annotation",
+        quality: 100,
       });
       files.push(new File([pdfBlob], `${doc.name}.pdf`, { type: "application/pdf" }));
     }
@@ -445,6 +493,7 @@ export class DocumentView extends MWCView {
         .saveToPdf({
           mimeType: "application/octet-stream",
           saveAnnotation: "annotation",
+          quality: 100,
         })
         .then((blob) => {
           const url = URL.createObjectURL(blob);
@@ -473,6 +522,7 @@ export class DocumentView extends MWCView {
         const pdfBlob = await doc.saveToPdf({
           mimeType: "application/pdf",
           saveAnnotation: "annotation",
+          quality: 100,
         });
 
         const fileName = `${doc.name}.pdf`;
@@ -544,6 +594,9 @@ export class DocumentView extends MWCView {
 
     this.browseViewer.multiselectMode = enabled;
 
+    // Update header action button styles
+    this.updateHeaderActionBtnStyle();
+
     if (enabled) {
       // If entering selection mode, select current page
       const currentPageIndex = this.browseViewer.getCurrentPageIndex();
@@ -563,6 +616,7 @@ export class DocumentView extends MWCView {
 
   private handlePageChecked() {
     this.updateToolbarBtnStates();
+    this.updateHeaderActionBtnStyle();
   }
 
   protected updateToolbarBtnStates() {
@@ -572,7 +626,7 @@ export class DocumentView extends MWCView {
     const allPagesSelected =
       this.browseViewer.getSelectedPageIndices().length === this.browseViewer.currentDocument.pages.length;
 
-    this.toolbarBtn.selectAll.querySelector(".label").textContent = allPagesSelected ? "Cancel" : "Select All";
+    // this.toolbarBtn.selectAll.querySelector(".label").textContent = allPagesSelected ? "Cancel" : "Select All";
 
     this.toolbarBtn.manage.classList.toggle("disabled", emptyDoc);
     this.toolbarBtn.shareDocument.classList.toggle("disabled", emptyDoc);
@@ -609,8 +663,8 @@ export class DocumentView extends MWCView {
         type: ModalType.CONFIRM,
         variant: ModalVariant.WARNING,
         title: "Delete Pages",
-        message: `Are you sure you want to delete ${selectedIndex.length} ${
-          selectedIndex.length <= 1 ? "page" : "pages"
+        message: `Are you sure you want to delete ${
+          selectedIndex.length === 1 ? "1 page" : `${selectedIndex.length} pages`
         }?`,
         confirmText: "Delete",
         cancelText: "Cancel",
@@ -621,6 +675,8 @@ export class DocumentView extends MWCView {
         this.browseViewer.currentDocument.deletePages(selectedIndex);
         this.showContent(this.browseViewer.currentDocument.pages.length !== 0);
         this.updateToolbarBtnStates();
+
+        this.handleSelectedBack();
 
         await showToast(this.config.container, "Deleted", ModalVariant.SUCCESS);
       }
@@ -761,9 +817,8 @@ const DOCUMENT_VIEW_STYLE = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
     width: 100%;
-        color: black;
+    color: black;
   }
 
   .mwc-document-view-header-btn {
@@ -785,6 +840,7 @@ const DOCUMENT_VIEW_STYLE = `
     gap: 8px;
     flex: 1;
     max-width: calc(100% - 4rem);
+    padding-left: 1rem;
   }
 
   .mwc-document-view-header-container .mwc-document-view-header-doc-name {
@@ -794,6 +850,23 @@ const DOCUMENT_VIEW_STYLE = `
     overflow: hidden;
     text-overflow: ellipsis;
     user-select: none;
+  }
+
+  .mwc-document-view-header-actions {
+    display: flex;
+    align-items: center;
+    padding-right: 1rem;
+  }
+
+  .mwc-document-view-header-actions .mwc-document-view-header-btn.selectAll,
+  .mwc-document-view-header-actions .mwc-document-view-header-btn.cancel {
+    background: none;
+    border: none;
+    color: #FE8E14;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    align-content: end;
   }
 
   .mwc-default-empty-document {
@@ -812,7 +885,7 @@ const DOCUMENT_VIEW_STYLE = `
   .mwc-default-empty-document .title {
     margin-top: 2rem;
     font-size: 24px;
-        color: black;
+    color: black;
   }
 
   .mwc-default-empty-document .desc {

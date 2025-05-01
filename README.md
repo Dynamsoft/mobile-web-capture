@@ -83,7 +83,7 @@ Since the **MWC library files** are published on [**npm**](https://www.npmjs.com
 
 To use the precompiled script, simply include the following URL in a `<script>` tag:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.0.1/dist/mwc.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.1.0/dist/mwc.bundle.js"></script>
 ```
 
 Below is the complete **Hello World** sample page that uses this precompiled script from a CDN.
@@ -98,7 +98,7 @@ Below is the complete **Hello World** sample page that uses this precompiled scr
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mobile Web Capture - Hello World</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.0.1/dist/mwc.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.1.0/dist/mwc.bundle.js"></script>
   </head>
   <body>
     <script>
@@ -139,7 +139,7 @@ Let’s walk through the code in the **Hello World** Sample to understand how it
     <title>Mobile Web Capture - Hello World</title>
     <script src="../dist/mwc.bundle.js"></script>
     <!--Alternatively, reference the script from CDN
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.0.1/dist/mwc.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.1.0/dist/mwc.bundle.js"></script>
     -->
   </head>
 ```
@@ -153,7 +153,7 @@ In this step, **MWC** is referenced using a relative local path in the `<head>` 
 Alternatively, the script can be referenced from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.0.1/dist/mwc.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-mobile-web-capture@3.1.0/dist/mwc.bundle.js"></script>
 ```
 
 **MWC** wraps all its dependency scripts, so a **MWC** project only needs to include **MWC** itself as a single script. No additional dependency scripts are required.
