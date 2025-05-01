@@ -4,7 +4,6 @@ import {
   DocumentScannerConfig,
   EnumResultStatus,
   DocumentScanner,
-  NormalizedImageResultItem,
   DocumentScannerViewConfig,
   DocumentResultViewConfig,
   DocumentCorrectionViewConfig,
@@ -12,7 +11,7 @@ import {
 import { PageView, PageViewConfig } from "./views/PageView";
 import { DocumentView, DocumentViewConfig } from "./views/DocumentView";
 import { TransferMode, TransferView, TransferViewConfig } from "./views/TransferView";
-import { createStyle, getElement, getFileNameWithoutExtension } from "./views/utils";
+import { createStyle, getElement, getFileNameWithoutExtension, isEmptyObject } from "./views/utils";
 import { EnumAllViews, EnumMWCStartingViews, EnumMWCViews, ExportConfig, UploadedDocument } from "./views/utils/types";
 import { DEFAULT_LOADING_SCREEN_STYLE, showLoadingScreen } from "./views/components/LoadingScreen";
 import { ModalVariant, showToast } from "./views/components/Modal";
@@ -23,6 +22,12 @@ const DEFAULT_DDV_CSS_FILE = "ddv.css";
 const DEFAULT_DDV_ENGINE_RESOURCE_PATH_FOLDER = "engine";
 const DEFAULT_DDV_RESOURCE_PATH = "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@2.1.0/dist";
 const DEFAULT_CONTAINER_HEIGHT = "100dvh";
+
+export interface MWCScanner {
+  initialize(): Promise<any>;
+  launch(): Promise<any>;
+  dispose(): void;
+}
 
 type MWCViewMapping = {
   [EnumMWCViews.Library]: {
@@ -45,6 +50,11 @@ type MWCViewMapping = {
     instance?: HistoryView;
     config: HistoryViewConfig;
   };
+  // TODO
+  [EnumMWCViews.Scanner]: {
+    instance?: any;
+    config: any;
+  };
 };
 
 type MWCView<T extends EnumMWCViews> = MWCViewMapping[T];
@@ -65,7 +75,10 @@ export interface MobileWebCaptureConfig {
   transferViewConfig?: Pick<TransferViewConfig, "container" | "toolbarButtonsConfig">;
   historyViewConfig?: Pick<HistoryViewConfig, "container" | "toolbarButtonsConfig">;
 
-  // DDS Config
+  // General Scanner
+  scanner?: MWCScanner;
+
+  // DDS Config (still keep this for backward compatibility)
   documentScannerConfig?: Omit<DocumentScannerConfig, "container" | "license"> & {
     scannerViewConfig?: Omit<
       DocumentScannerViewConfig,
@@ -80,7 +93,8 @@ export interface MobileWebCaptureConfig {
 }
 
 class MobileWebCapture {
-  private documentScanner: DocumentScanner;
+  // private documentScanner: DocumentScanner;
+  private scanner: MWCScanner;
 
   private mwcViews: { [K in EnumMWCViews]: MWCView<K> };
   private currentView: EnumMWCViews = null;
@@ -119,7 +133,9 @@ class MobileWebCapture {
       this.showMWCLoadingOverlay("Initializing");
 
       // Initialize DDS (Initialize DDS first to avoid DDV trial banner from showing)
-      await this.documentScanner.initialize();
+      if (this.scanner) {
+        await this.scanner.initialize();
+      }
 
       // Initialize DDV resources
       await this.loadDDVcss();
@@ -133,10 +149,11 @@ class MobileWebCapture {
       // Initialize MWC Views
       this.initializeMWCViews();
       this.isInitialized = true;
-    } catch (error) {
+    } catch (ex) {
       this.isInitialized = false;
-      console.error("Initialization Failed:", error);
-      throw new Error(`Initialization Failed: ${error.message}`);
+      const errMsg = ex?.message || ex;
+      console.error(errMsg);
+      throw new Error(errMsg);
     } finally {
       this.hideMWCLoadingOverlay();
     }
@@ -194,6 +211,7 @@ class MobileWebCapture {
       }
     } catch (ex: any) {
       const errMsg = ex?.message || ex;
+      this.dispose();
       throw new Error(`Launch MWC Failed: ${errMsg}`);
     }
   }
@@ -324,47 +342,51 @@ class MobileWebCapture {
     };
 
     // Update DDS containers in config
-    this.config.documentScannerConfig = {
-      ...this.config.documentScannerConfig,
-      scannerViewConfig: {
-        ...this.config.documentScannerConfig?.scannerViewConfig,
-        container: viewContainers[EnumAllViews.Scanner],
-      },
-      ...(this.config.documentScannerConfig?.showResultView !== false && {
-        resultViewConfig: {
-          ...this.config.documentScannerConfig?.resultViewConfig,
-          container: viewContainers[EnumAllViews.ScanResult],
+    if (!this.config.scanner) {
+      this.config.documentScannerConfig = {
+        ...this.config.documentScannerConfig,
+        scannerViewConfig: {
+          ...this.config.documentScannerConfig?.scannerViewConfig,
+          container: viewContainers[EnumAllViews.Scanner],
         },
-      }),
-      ...(this.config.documentScannerConfig?.showCorrectionView !== false && {
+        ...(this.config.documentScannerConfig?.showResultView !== false && {
+          resultViewConfig: {
+            ...this.config.documentScannerConfig?.resultViewConfig,
+            container: viewContainers[EnumAllViews.ScanResult],
+          },
+        }),
+        ...(this.config.documentScannerConfig?.showCorrectionView !== false && {
+          correctionViewConfig: {
+            ...this.config.documentScannerConfig?.correctionViewConfig,
+            container: viewContainers[EnumAllViews.Correction],
+          },
+        }),
         correctionViewConfig: {
-          ...this.config.documentScannerConfig?.correctionViewConfig,
+          ...this.config.documentScannerConfig?.scannerViewConfig,
           container: viewContainers[EnumAllViews.Correction],
         },
-      }),
-      correctionViewConfig: {
-        ...this.config.documentScannerConfig?.scannerViewConfig,
-        container: viewContainers[EnumAllViews.Correction],
-      },
-    };
+      };
 
-    // Create DDS instance
-    this.documentScanner = new DocumentScanner({
-      license: this.config.license,
-      ...this.config.documentScannerConfig,
-      scannerViewConfig: this.config.documentScannerConfig?.scannerViewConfig,
-      // Only add result and correction configs if their views are enabled
-      resultViewConfig:
-        this.config.documentScannerConfig?.showResultView === false
-          ? undefined
-          : this.config.documentScannerConfig?.resultViewConfig,
-      correctionViewConfig:
-        this.config.documentScannerConfig?.showCorrectionView === false
-          ? undefined
-          : this.config.documentScannerConfig?.correctionViewConfig,
-      showResultView: this.config.documentScannerConfig?.showResultView ?? true,
-      showCorrectionView: this.config.documentScannerConfig?.showCorrectionView ?? true,
-    });
+      // Create DDS instance
+      this.scanner = new DocumentScanner({
+        license: this.config.license,
+        ...this.config.documentScannerConfig,
+        scannerViewConfig: this.config.documentScannerConfig?.scannerViewConfig,
+        // Only add result and correction configs if their views are enabled
+        resultViewConfig:
+          this.config.documentScannerConfig?.showResultView === false
+            ? undefined
+            : this.config.documentScannerConfig?.resultViewConfig,
+        correctionViewConfig:
+          this.config.documentScannerConfig?.showCorrectionView === false
+            ? undefined
+            : this.config.documentScannerConfig?.correctionViewConfig,
+        showResultView: this.config.documentScannerConfig?.showResultView ?? true,
+        showCorrectionView: this.config.documentScannerConfig?.showCorrectionView ?? true,
+      });
+    } else {
+      this.scanner = this.config.scanner || null;
+    }
 
     // Set up views object to keep track of the visibility of each views
     this.mwcViews = {
@@ -438,6 +460,9 @@ class MobileWebCapture {
 
           onBack: (caller) => this.handleHistoryBack(caller),
         },
+      },
+      [EnumMWCViews.Scanner]: {
+        config: {},
       },
     };
   }
@@ -602,47 +627,98 @@ class MobileWebCapture {
     this.currentView = targetView;
   }
 
+  private async processScanResult(result: any) {
+    const blobs: Blob[] = [];
+    const promises: Promise<void>[] = [];
+
+    try {
+      // Array -> use result._imageData.toBlob()
+      if (Array.isArray(result)) {
+        const blobPromises = result.map(async (item) => {
+          const imageData = item?._imageData;
+
+          if (imageData?.toBlob && item?.status?.code === EnumResultStatus.RS_SUCCESS) {
+            const blob = await imageData.toBlob("image/png");
+            blobs.push(blob);
+          }
+        });
+
+        await Promise.all(blobPromises);
+      }
+      // Direct result
+      else if (
+        (result?.correctedImageResult || result?.imageData) &&
+        result?.status?.code === EnumResultStatus.RS_SUCCESS
+      ) {
+        const imageData = result?.correctedImageResult || result?._imageData;
+        if (imageData?.toBlob) {
+          const blob = await imageData.toBlob("image/png");
+          blobs.push(blob);
+        }
+      }
+      // Result is the values of object, but not directly DocumentScanResult
+      else if (result && typeof result === "object" && !isEmptyObject(result)) {
+        const objectPromises = Object.values(result).map(async (item: any) => {
+          const imageData = item?._imageData;
+          if (imageData?.toBlob && item?.status?.code === EnumResultStatus.RS_SUCCESS) {
+            const blob = await imageData.toBlob("image/png");
+            blobs.push(blob);
+          }
+        });
+
+        await Promise.all(objectPromises);
+      }
+    } catch (ex: any) {
+      let errMsg = `Error processing scan result: ${ex?.message || ex}`;
+      console.error(errMsg);
+      throw new Error(errMsg);
+    }
+
+    return blobs;
+  }
+
   private async handleCameraCapture(sourceView: EnumMWCViews) {
     this.mwcViews[this.currentView].instance?.setVisible?.(false);
 
     try {
-      const result = await this.documentScanner.launch();
+      const result = await this.scanner.launch();
+      const blobs = await this.processScanResult(result);
 
-      // Return to library view after successful capture
-      if (result?.status.code === EnumResultStatus.RS_SUCCESS) {
-        const blob = await (result.correctedImageResult as NormalizedImageResultItem).toBlob("image/png");
+      if (blobs.length === 0) {
+        // No images returned
+        return;
+      }
 
-        if (sourceView === EnumMWCViews.Library) {
-          // Create new document when capturing from Library view
-          const sources = [
-            {
-              convertMode: "cm/auto",
-              fileData: blob,
-            },
-          ];
-          const doc = await (this.mwcViews.library.instance as LibraryView).createAndLoadDocument(
-            `Doc-${Date.now()}`,
-            sources
-          );
+      if (sourceView === EnumMWCViews.Library) {
+        const sources = blobs.map((blob) => ({
+          convertMode: "cm/auto",
+          fileData: blob,
+        }));
+        const doc = await (this.mwcViews.library.instance as LibraryView).createAndLoadDocument(
+          `Doc-${Date.now()}`,
+          sources
+        );
 
-          this.handleDocumentClick(doc.uid);
-        } else if (sourceView === EnumMWCViews.Document || sourceView === EnumMWCViews.Page) {
-          // Add to current document when capturing from Document view
-          const documentView = this.mwcViews[EnumMWCViews.Document].instance as DocumentView;
-          const currentDoc = documentView.browseViewer.currentDocument;
+        this.handleDocumentClick(doc.uid);
+      } else if (sourceView === EnumMWCViews.Document || sourceView === EnumMWCViews.Page) {
+        // Add to current document when capturing from Document view
+        const documentView = this.mwcViews[EnumMWCViews.Document].instance as DocumentView;
+        const currentDoc = documentView.browseViewer.currentDocument;
 
-          if (currentDoc) {
-            await currentDoc.loadSource([
-              {
-                convertMode: "cm/auto",
-                fileData: blob,
-              },
-            ]);
-          }
+        const sources = blobs.map((blob) => ({
+          convertMode: "cm/auto",
+          fileData: blob,
+        }));
+
+        if (currentDoc) {
+          await currentDoc.loadSource(sources);
         }
       }
+
+      // Return to library view after successful capture
     } catch (error) {
       console.error("Camera capture failed:", error);
+      throw new Error(error);
     } finally {
       this.mwcViews[this.currentView].instance?.setVisible?.(true);
     }
@@ -651,7 +727,7 @@ class MobileWebCapture {
   private async handleGalleryImport(sourceView: EnumMWCViews) {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*,application/pdf";
+    input.accept = "image/png,image/jpeg,image/bmp,image/tiff,application/pdf";
     input.multiple = true;
 
     input.onchange = async () => {
@@ -753,7 +829,7 @@ class MobileWebCapture {
       }
     });
 
-    this.documentScanner.dispose();
+    this.scanner.dispose();
 
     // Clear document manager
     DDV.documentManager.deleteAllDocuments();
@@ -771,7 +847,7 @@ class MobileWebCapture {
     this.currentView = null;
     this.uploadedFiles = [];
     this.mwcViews = null;
-    this.documentScanner = null;
+    this.scanner = null;
     this.isInitialized = false;
 
     if (this.config?.onClose) {

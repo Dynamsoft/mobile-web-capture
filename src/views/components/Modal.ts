@@ -463,7 +463,7 @@ const MODAL_STYLES = `
 }
 
 .modal-btn.cancel {
-  background-color: #f5f5f5;
+  background-color: #e6e6e6;
   color: #333;
 }
 

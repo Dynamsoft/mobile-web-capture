@@ -245,7 +245,7 @@ const DEFAULT_MWC_VIEW_STYLE = `
     font-size: 24px;
     align-items: center;
     justify-content: center;
-    background-color: #F5F5F5;
+    background-color: #e6e6e6;
     flex: 0 1 3rem;
     padding: 0.5rem;
     user-select: none;

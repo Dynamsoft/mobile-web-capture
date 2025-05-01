@@ -43,9 +43,10 @@ declare enum EnumMWCViews {
     Page = "page",
     Document = "document",
     Transfer = "transfer",
-    History = "history"
+    History = "history",
+    Scanner = "Scanner"
 }
-type EnumMWCStartingViews = EnumMWCViews.Library | EnumMWCViews.Document;
+type EnumMWCStartingViews = EnumMWCViews.Library | EnumMWCViews.Document | EnumMWCViews.Scanner;
 declare enum EnumAllViews {
     Library = "library",
     Page = "page",
@@ -315,7 +316,6 @@ interface DocumentToolbarButtonsConfig {
     manage?: ToolbarButtonConfig;
     copyTo?: ToolbarButtonConfig;
     moveTo?: ToolbarButtonConfig;
-    selectAll?: ToolbarButtonConfig;
     deleteImage?: ToolbarButtonConfig;
     shareImage?: ToolbarButtonConfig;
     uploadImage?: ToolbarButtonConfig;
@@ -343,6 +343,7 @@ declare class DocumentView extends MWCView {
     private documentTitle;
     private headerRenameTitleBtn;
     private toolbarBtn;
+    private headerTitle;
     private headerActionBtn;
     browseViewer: BrowseViewer;
     private isDragged;
@@ -352,6 +353,7 @@ declare class DocumentView extends MWCView {
     setVisible(visible: boolean): void;
     private createBrowseViewer;
     protected createHeader(): void;
+    private updateHeaderActionBtnStyle;
     protected updateHeaderTitle(): void;
     private handleRename;
     dispose(): void;
@@ -388,6 +390,11 @@ interface HistoryViewConfig {
     toolbarButtonsConfig?: HistoryToolbarButtonsConfig;
 }
 
+interface MWCScanner {
+    initialize(): Promise<any>;
+    launch(): Promise<any>;
+    dispose(): void;
+}
 interface MobileWebCaptureConfig {
     license?: string;
     container?: HTMLElement | string;
@@ -400,6 +407,7 @@ interface MobileWebCaptureConfig {
     pageViewConfig?: Pick<PageViewConfig, "container" | "toolbarButtonsConfig">;
     transferViewConfig?: Pick<TransferViewConfig, "container" | "toolbarButtonsConfig">;
     historyViewConfig?: Pick<HistoryViewConfig, "container" | "toolbarButtonsConfig">;
+    scanner?: MWCScanner;
     documentScannerConfig?: Omit<DocumentScannerConfig, "container" | "license"> & {
         scannerViewConfig?: Omit<DocumentScannerViewConfig, "container" | "templateFilePath" | "utilizedTemplateNames" | "_showCorrectionView">;
         resultViewConfig?: Omit<DocumentResultViewConfig, "container">;
@@ -408,7 +416,7 @@ interface MobileWebCaptureConfig {
 }
 declare class MobileWebCapture {
     private config;
-    private documentScanner;
+    private scanner;
     private mwcViews;
     private currentView;
     private uploadedFiles;
@@ -434,6 +442,7 @@ declare class MobileWebCapture {
     private initializeDDV;
     private initializeMWCViews;
     private switchView;
+    private processScanResult;
     private handleCameraCapture;
     private handleGalleryImport;
     private handleDocumentClick;
@@ -455,4 +464,5 @@ declare const MWC: {
     TransferView: typeof TransferView;
 };
 
-export { DocumentView, DocumentViewConfig, EnumAllViews, EnumMWCViews, ExportConfig, LibraryView, LibraryViewConfig, MWC, MobileWebCapture, MobileWebCaptureConfig, PageView, PageViewConfig, TransferView, TransferViewConfig, UploadStatus, UploadedDocument };
+export { DocumentView, EnumAllViews, EnumMWCViews, LibraryView, MWC, MobileWebCapture, PageView, TransferView };
+export type { DocumentViewConfig, ExportConfig, LibraryViewConfig, MobileWebCaptureConfig, PageViewConfig, TransferViewConfig, UploadStatus, UploadedDocument };

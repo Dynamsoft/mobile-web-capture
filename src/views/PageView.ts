@@ -676,6 +676,7 @@ const DEFAULT_PAGE_VIEW_STYLE = `
 
 .ddv-edit-viewer-footer-mobile{
   height: 0;
+  display: none;
 }
 
 .ddv-annotation-mode-box,

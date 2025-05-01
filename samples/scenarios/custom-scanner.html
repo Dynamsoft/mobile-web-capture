@@ -3,24 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mobile Web Capture</title>
-    <script src="../dist/mwc.bundle.js"></script>
+    <title>Mobile Web Capture - Custom Scanner</title>
+    <!-- Import Dynamsoft Document Scanner from CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-document-scanner@1.2.0/dist/dds.bundle.js"></script>
+
+    <script src="../../dist/mwc.bundle.js"></script>
   </head>
   <body>
     <script>
+      const documentScanner = new Dynamsoft.DocumentScanner({
+        license: "YOUR_LICENSE_KEY_HERE",
+      });
+
       // Instantiate a Mobile Web Capture Object
       const mobileWebCapture = new Dynamsoft.MobileWebCapture({
         license: "YOUR_LICENSE_KEY_HERE", // Replace this with your actual license key
         showLibraryView: true,
+        scanner: documentScanner,
       });
 
       (async () => {
         // Launch the Mobile Web Capture Instance
-        try {
-          await mobileWebCapture.launch();
-        } catch (ex) {
-          alert(ex);
-        }
+        await mobileWebCapture.launch();
       })();
     </script>
   </body>

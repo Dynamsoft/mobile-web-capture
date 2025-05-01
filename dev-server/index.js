@@ -34,8 +34,10 @@ app.use(
 // Serve static files
 app.use("/dist", express.static(distPath));
 app.use("/assets", express.static(path.join(__dirname, "../samples/demo/assets")));
+app.use("/font", express.static(path.join(__dirname, "../samples/demo/font")));
 
 app.use("/demo/assets", express.static(path.join(__dirname, "../samples/demo/assets")));
+app.use("/demo/font", express.static(path.join(__dirname, "../samples/demo/font")));
 
 // Routes
 app.get("/", (req, res) => {
@@ -60,6 +62,10 @@ app.get("/scenarios/customized-empty-container", (req, res) => {
 
 app.get("/scenarios/use-file-input", (req, res) => {
   res.sendFile(path.join(__dirname, "../samples/scenarios/use-file-input.html"));
+});
+
+app.get("/scenarios/custom-scanner", (req, res) => {
+  res.sendFile(path.join(__dirname, "../samples/scenarios/custom-scanner.html"));
 });
 
 // Allow upload feature

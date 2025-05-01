@@ -519,6 +519,7 @@ export class LibraryView extends MWCView {
         const pdfBlob = await doc.saveToPdf({
           mimeType: "application/octet-stream",
           saveAnnotation: "annotation",
+          quality: 100,
         });
         files.push(new File([pdfBlob], `${doc.name}.pdf`, { type: "application/pdf" }));
       }
@@ -562,6 +563,7 @@ export class LibraryView extends MWCView {
           const pdfBlob = await doc.saveToPdf({
             mimeType: "application/pdf",
             saveAnnotation: "annotation",
+            quality: 100,
           });
 
           const fileName = `${doc.name}.pdf`;
