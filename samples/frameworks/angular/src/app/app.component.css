@@ -1,0 +1,17 @@
+.mwc-hello-world-page {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.mwc-title {
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+.mwc-title .mwc-title-logo {
+  margin-left: 4px;
+  width: 24px;
+  height: 24px;
+}
