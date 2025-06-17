@@ -25,6 +25,10 @@ npm run dev
 
 Then open http://localhost:5173/ to view the sample app.
 
+> Note:
+>
+> Request your 30-day trial license [here](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc).
+
 ## 📌 Customization
 
 Please check the official [documentation](https://www.dynamsoft.com/mobile-web-capture/docs/introduction/).
