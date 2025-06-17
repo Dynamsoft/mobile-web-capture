@@ -1,6 +1,6 @@
 # 📦 Mobile Web Capture - Angular
 
-This sample demonstrates how to use the `Mobile Web Capture` API from the [Dynamsoft Mobile Web Capture SDK](https://www.dynamsoft.com/mobile-web-capture/) in an **Angular** app to capture documents using the camera.
+This sample demonstrates how to use the `Mobile Web Capture` API from the [Dynamsoft Mobile Web Capture SDK](https://www.dynamsoft.com/use-cases/mobile-web-capture-sdk/) in an **Angular** app to capture documents using the camera.
 
 ## ✨ Features
 
