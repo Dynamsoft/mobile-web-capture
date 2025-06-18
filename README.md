@@ -25,13 +25,13 @@ This guide walks you through building a web application that scans multi-page do
 
 ### Get a Trial License
 
-If you haven't requested a **DDS** trial, you can try **MWC** by requesting a trial license through our [customer portal](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc&utm_source=github_readme). The trial can be renewed twice for up to two months of free access.
+If you haven't requested a **DDS** trial, you can try **MWC** by requesting a trial license through our [customer portal](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc&source=guide). The trial can be renewed twice for up to two months of free access.
 
 > **DDS** and **MWC** share the same license keys. If you already have a **DDS** license, you can use it for **MWC**, and vice versa.
 
 ### Get a Full License
 
-To purchase a full license, [contact us](https://www.dynamsoft.com/company/contact?product=mwc&utm_source=github_readme).
+To purchase a full license, [contact us](https://www.dynamsoft.com/company/contact/).
 
 ## Quick Start
 
@@ -223,7 +223,3 @@ The user can also enable the **"Upload"** feature. Check out [Enable File Upload
 ## Next Step
 
 **MWC** provides extensive customization options. Read on to explore the available customizations in the [MWC Customization Guide](https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture-customization.html).
-
-## Support
-
-If you have any questions, feel free to [contact Dynamsoft Support](https://www.dynamsoft.com/company/contact?product=mwc&utm_source=github_readme).
