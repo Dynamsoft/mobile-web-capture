@@ -30,7 +30,7 @@ You can try **MWC** by requesting a trial license through our [customer portal](
 
 #### Get a Full License
 
-To purchase a full license, [contact us](https://www.dynamsoft.com/company/contact/product=mwc&utm_source=github_angular_readme).
+To purchase a full license, [contact us](https://www.dynamsoft.com/company/contact?product=mwc&utm_source=github_angular_readme).
 
 ### 3. Start the App
 
