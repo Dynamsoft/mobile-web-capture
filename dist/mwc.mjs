@@ -4,7 +4,7 @@
 * @website http://www.dynamsoft.com
 * @copyright Copyright 2026, Dynamsoft Corporation
 * @author Dynamsoft
-* @version 4.0.0-beta-202601300002
+* @version 4.0.0-beta-202602010002
 * @fileoverview Mobile Web Capture (MWC) is an SDK for scanning multi-page documents, enhancing Dynamsoft Document Scanner (DDS) with multi-document management, annotation, and uploading.
 * More info on MWC JS: https://www.dynamsoft.com/capture-vision/docs/web/programming/javascript/
 */
