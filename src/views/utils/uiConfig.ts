@@ -6,19 +6,36 @@ export const mobileTopBarChildrenConfig: Record<"base" | "edit", any> = {
   base: {
     type: DDV.Elements.Layout,
     className: "ddv-edit-viewer-header-mobile",
-    children: [DDV.Elements.Pagination],
+    children: [
+      {
+        type: DDV.Elements.Layout,
+        children: [
+          DDV.Elements.Download,
+          DDV.Elements.Pagination,
+          DDV.Elements.Print,
+        ],
+      },
+    ],
   },
   edit: {
     type: DDV.Elements.Layout,
     className: "ddv-edit-viewer-header-mobile",
-    children: [DDV.Elements.Undo, DDV.Elements.Redo],
+    children: [
+      {
+        type: DDV.Elements.Layout,
+        children: [
+          DDV.Elements.Undo,
+          DDV.Elements.Redo,
+        ],
+      },
+    ],
   },
 };
 
 // Mobile EditViewer
 export const mobileEditViewerUiConfig = {
   type: DDV.Elements.Layout,
-  flexDirection: "column",
+  flexDirection: "column" as const,
   className: "ddv-edit-viewer-mobile",
   children: [
     mobileTopBarChildrenConfig.base,
