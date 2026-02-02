@@ -1,14 +1,4 @@
----
-layout: default-layout
-needAutoGenerateSidebar: true
-needGenerateH3Content: true
-noTitleIndex: false
-title: Mobile Document Scanner JS Edition - Scan Multi-Page Documents
-keywords: Documentation, Mobile Document Scanner, Web, JS Edition, Mobile Web Capture, Dynamsoft Document Scanner,
-description: Mobile Document Scanner JS Edition User Guide
----
-
-# Extend Mobile Document Scanner to Full Document Management
+# Scan Multi-Page Documents with Mobile Web Capture
 
 > Prerequisites: read the [Introduction](https://www.dynamsoft.com/mobile-document-scanner/docs/web/introduction/index.html) before proceeding.
 
