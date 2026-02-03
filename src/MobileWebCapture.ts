@@ -20,7 +20,7 @@ import { HistoryCallerView, HistoryView, HistoryViewConfig } from "./views/Histo
 const DEFAULT_DDV_CSS_ID = "mwc-ddv-css";
 const DEFAULT_DDV_CSS_FILE = "ddv.css";
 const DEFAULT_DDV_ENGINE_RESOURCE_PATH_FOLDER = "engine";
-const DEFAULT_DDV_RESOURCE_PATH = "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@2.1.0/dist";
+const DEFAULT_DDV_RESOURCE_PATH = "https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@3.2.0/dist";
 const DEFAULT_CONTAINER_HEIGHT = "100dvh";
 
 export interface MWCScanner {

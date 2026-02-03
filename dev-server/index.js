@@ -6,10 +6,22 @@ import https from "https";
 import cors from "cors";
 import path from "path";
 import os from "os";
+import rateLimit from "express-rate-limit";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const uploadDir = path.join(__dirname, "uploaded");
+
+// Prevent path traversal: returns safe path within uploadDir or null
+function safePath(fileName) {
+  if (!fileName || typeof fileName !== "string") return null;
+  const base = path.basename(fileName);
+  if (!base || base === "." || base === "..") return null;
+  const full = path.resolve(uploadDir, base);
+  return full.startsWith(path.resolve(uploadDir) + path.sep) ? full : null;
+}
 
 // Check if dist folder exists
 const distPath = path.join(__dirname, "../dist");
@@ -23,6 +35,7 @@ if (!fs.existsSync(distPath)) {
 
 const app = express();
 
+app.use(rateLimit({ windowMs: 60000, max: 100 }));
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -74,7 +87,7 @@ app.post("/upload", function (req, res) {
     // Create a new Formidable form
     const form = formidable({
       multiples: false,
-      uploadDir: path.join(__dirname, "uploaded"),
+      uploadDir: uploadDir,
       keepExtensions: true,
     });
 
@@ -89,22 +102,29 @@ app.post("/upload", function (req, res) {
         return res.status(400).send("No file uploaded.");
       }
 
-      const sessionID = fields.sessionID || "default_session";
-      // Get current timestamp
-      let dt = new Date();
+      const sessionID = String(fields.sessionID?.[0] || fields.sessionID || "default_session").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const originalFileName = path.basename(uploadedFile.originalFilename || "unnamed");
+      const newFileName = sessionID + "_" + Date.now() + "_" + originalFileName;
 
-      const fileSavePath = path.join(__dirname, "uploaded\\");
-      const newFileName = sessionID + "_" + dt.getTime() + "_" + uploadedFile.originalFilename;
-      const newFilePath = path.join(fileSavePath, newFileName);
+      const newFilePath = safePath(newFileName);
+      if (!newFilePath) {
+        return res.status(400).send("Invalid filename.");
+      }
+
+      // Validate source path is within uploadDir (formidable temp files)
+      const srcPath = path.resolve(uploadedFile.filepath);
+      if (!srcPath.startsWith(path.resolve(uploadDir) + path.sep)) {
+        return res.status(400).send("Invalid upload path.");
+      }
 
       // Move the uploaded file to the desired directory
-      fs.rename(uploadedFile.filepath, newFilePath, (err) => {
+      fs.rename(srcPath, newFilePath, (err) => {
         if (err) {
           console.error(err);
           return res.status(500).send("Error saving the file.");
         }
-        console.log(`${uploadedFile.originalFilename} uploaded successfully!`);
-        res.send(`${uploadedFile.originalFilename}:UploadedFileName:${newFileName}`);
+        console.log(`${originalFileName} uploaded successfully!`);
+        res.send(`${originalFileName}:UploadedFileName:${newFileName}`);
       });
     });
   } catch (error) {
@@ -114,52 +134,36 @@ app.post("/upload", function (req, res) {
 
 app.get("/download", (req, res) => {
   try {
-    // Get query parameters
     const fileName = req.query.fileName;
-
     if (!fileName) {
       return res.status(400).send('"fileName" required');
     }
 
-    // Build the file path
-    const filePath = path.join(__dirname, "uploaded", fileName);
-    const fileExtension = path.extname(fileName);
-    // Check if the file exists
+    const filePath = safePath(fileName);
+    if (!filePath) {
+      return res.status(400).send("Invalid filename");
+    }
+
     if (!fs.existsSync(filePath)) {
       return res.status(404).send("File not found");
     }
 
-    // Set the appropriate content type
-    let contentType;
-
-    switch (fileExtension) {
-      case ".bmp":
-        contentType = "image/bmp";
-        break;
-      case ".jpg":
-        contentType = "image/jpeg";
-        break;
-      case ".tif":
-        contentType = "image/tiff";
-        break;
-      case ".png":
-        contentType = "image/png";
-        break;
-      case ".pdf":
-        contentType = "application/pdf";
-        break;
-      default:
-        return res.status(400).send("Unsupported file type");
+    const sanitizedName = path.basename(fileName);
+    const ext = path.extname(sanitizedName).toLowerCase();
+    const contentTypes = { ".bmp": "image/bmp", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".tif": "image/tiff", ".tiff": "image/tiff", ".png": "image/png", ".pdf": "application/pdf" };
+    const contentType = contentTypes[ext];
+    if (!contentType) {
+      return res.status(400).send("Unsupported file type");
     }
-    const serverFileName = fileName.match(/(.+)_(\d+)_(.+)$/);
-    const [, sessionID, uploadTime, realFileName] = serverFileName;
+
+    // Parse filename: sessionID_timestamp_originalFilename (use indexOf to avoid ReDoS)
+    const parts = sanitizedName.split("_");
+    const realFileName = parts.length >= 3 ? parts.slice(2).join("_") : sanitizedName;
     const encodedFileName = encodeURIComponent(realFileName).replace(/%20/g, " ");
 
-    // Set headers for file download
     res.setHeader("Content-Type", contentType);
     res.setHeader("Content-Disposition", `attachment; filename="${encodedFileName}"`);
 
-    // Send the file
     res.sendFile(filePath, (err) => {
       if (err) {
         res.status(500).send("Error processing the file");
@@ -172,16 +176,16 @@ app.get("/download", (req, res) => {
 
 app.post("/delete", (req, res) => {
   try {
-    // Get query parameters
     const fileName = req.query.fileName;
-
     if (!fileName) {
       return res.status(400).send('"fileName" required');
     }
 
-    // Build the file path
-    const filePath = path.join(__dirname, "uploaded", fileName);
-    // Check if the file exists
+    const filePath = safePath(fileName);
+    if (!filePath) {
+      return res.status(400).send("Invalid filename");
+    }
+
     if (fs.existsSync(filePath)) {
       const stats = fs.statSync(filePath);
 
@@ -190,10 +194,8 @@ app.post("/delete", (req, res) => {
         fs.chmodSync(filePath, 0o666); // Make file writable
       }
 
-      // Delete the file
       fs.unlinkSync(filePath);
-
-      return res.send(`File ${fileName} deleted successfully.`);
+      return res.send("File deleted successfully.");
     } else {
       return res.status(404).send("File not found");
     }

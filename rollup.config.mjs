@@ -33,31 +33,19 @@ const banner = `/*!
 * @copyright Copyright ${new Date().getUTCFullYear()}, Dynamsoft Corporation
 * @author Dynamsoft
 * @version ${version}
-* @fileoverview Mobile Web Capture (MWC) is an SDK for scanning multi-page documents, enhancing Dynamsoft Document Scanner (DDS) with multi-document management, annotation, and uploading.
-* More info on MWC JS: https://www.dynamsoft.com/capture-vision/docs/web/programming/javascript/
+* @fileoverview Dynamsoft Mobile Web Capture (MWC) is an advanced sample designed to extend the features of Dynamsoft Mobile Document Scanner (MDS) with multi-document management, annotation, and uploading.
+* More info on MWC: https://www.dynamsoft.com/mobile-document-scanner/docs/web/code-gallery/mobile-web-capture/index.html
 */`;
 
 const plugin_terser_es6 = terser({ ecma: 6, format: terser_format });
 const plugin_terser_es5 = terser({ ecma: 5, format: terser_format });
 
 const external = [
-  "dynamsoft-core",
-  "dynamsoft-license",
-  "dynamsoft-capture-vision-router",
-  "dynamsoft-camera-enhancer",
-  "dynamsoft-document-normalizer",
-  "dynamsoft-utility",
   "dynamsoft-document-scanner",
   "dynamsoft-document-viewer",
 ];
 
 const globals = {
-  "dynamsoft-core": "Dynamsoft.Core",
-  "dynamsoft-license": "Dynamsoft.License",
-  "dynamsoft-capture-vision-router": "Dynamsoft.CVR",
-  "dynamsoft-camera-enhancer": "Dynamsoft.DCE",
-  "dynamsoft-document-normalizer": "Dynamsoft.DDN",
-  "dynamsoft-utility": "Dynamsoft.Utility",
   "dynamsoft-document-scanner": "Dynamsoft.DDS",
   "dynamsoft-document-viewer": "Dynamsoft",
 };

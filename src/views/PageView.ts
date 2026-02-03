@@ -1,4 +1,4 @@
-import { DDV, DisplayModeEnum, EditViewer, UiConfig } from "dynamsoft-document-viewer";
+import { DDV, DisplayModeEnum, EditViewer } from "dynamsoft-document-viewer";
 import { mobileEditViewerUiConfig, mobileTopBarChildrenConfig } from "./utils/uiConfig";
 import { isMobile } from "./utils";
 import { MWC_ICONS } from "./utils/icons";
@@ -120,10 +120,10 @@ export class PageView extends MWCView {
 
     this.editViewer = new DDV.EditViewer({
       container: this.MWCViewElements.contentContainer,
-      uiConfig: mobileEditViewerUiConfig as UiConfig,
       viewerConfig: {
         scrollToLatest: true,
       },
+      uiConfig: mobileEditViewerUiConfig,
     });
     this.editViewer.displayMode = DisplayModeEnum.SINGLE;
     this.MWCViewElements.contentContainer.style.padding = "0px";
@@ -580,7 +580,8 @@ export class PageView extends MWCView {
   }
 
   private handleFilter(): void {
-    (this.config.container.querySelector(".ddv-button.ddv-filter") as HTMLElement).click();
+    const filterButton = this.config.container.querySelector(".ddv-filter") as HTMLElement;
+    filterButton?.click();
 
     if (this.isFilterMode) {
       this.isFilterMode = false;
@@ -597,13 +598,13 @@ export class PageView extends MWCView {
   }
 
   private handleAnnotate(): void {
-    (this.config.container.querySelector(".mwc-annotation-set") as HTMLElement).click();
+    const annotateButton = this.config.container.querySelector(".mwc-annotation-set") as HTMLElement;
+    annotateButton?.click();
 
     if (this.isAnnotatingMode) {
       this.isAnnotatingMode = false;
       this.toolbarBtn.annotate.classList.remove("selected");
       this.enableAllEditButtons();
-      this.editViewer.toolMode = "pan";
     } else {
       this.isAnnotatingMode = true;
       this.isFilterMode = false;
@@ -696,7 +697,7 @@ const DEFAULT_PAGE_VIEW_STYLE = `
   height: 70px;
 
   scrollbar-width: thin;
-  scrollbar-color: rgb(193,193,193) rgb(241,241,241); 
+  scrollbar-color: rgb(193,193,193) rgb(241,241,241);
 }
 .mwc-annotation-mode-bar > .ddv-button {
   height: 50px;
@@ -709,10 +710,10 @@ const DEFAULT_PAGE_VIEW_STYLE = `
   border-radius: 0px;
 }
 
-.mwc-annotation-mode-bar::-webkit-scrollbar-thumb { 
+.mwc-annotation-mode-bar::-webkit-scrollbar-thumb {
   border-radius: 0px;
   background-color: rgb(193,193,193);
-}  
+}
 
 .mwc-annotation-mode-bar::-webkit-scrollbar-track {
   border-radius: 0px;
@@ -721,6 +722,16 @@ const DEFAULT_PAGE_VIEW_STYLE = `
 
 .ddv-undo-page, .ddv-redo-page {
   flex-direction: column;
+}
+
+/* Top bar layout adjustments */
+.ddv-edit-viewer-header-mobile {
+  min-height: 60px;
+  height: 60px;
+}
+
+.ddv-edit-viewer-header-mobile .ddv-pagination {
+  flex: 0 0 auto;
 }
 `;
 

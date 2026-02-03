@@ -1,15 +1,3 @@
-import * as dynamsoftCore from 'dynamsoft-core';
-export { dynamsoftCore as Core };
-import * as dynamsoftLicense from 'dynamsoft-license';
-export { dynamsoftLicense as License };
-import * as dynamsoftCaptureVisionRouter from 'dynamsoft-capture-vision-router';
-export { dynamsoftCaptureVisionRouter as CVR };
-import * as dynamsoftCameraEnhancer from 'dynamsoft-camera-enhancer';
-export { dynamsoftCameraEnhancer as DCE };
-import * as dynamsoftDocumentNormalizer from 'dynamsoft-document-normalizer';
-export { dynamsoftDocumentNormalizer as DDN };
-import * as dynamsoftUtility from 'dynamsoft-utility';
-export { dynamsoftUtility as Utility };
 import * as dynamsoft_document_viewer from 'dynamsoft-document-viewer';
 import { BrowseViewer, IDocument } from 'dynamsoft-document-viewer';
 export { dynamsoft_document_viewer as DDV };

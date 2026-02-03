@@ -21,4 +21,4 @@ These uploaded files are accessible in the History View, which can be reached fr
 1. Download: Retrieve the file for local use.
 2. Delete: Remove the file from the directory.
 
-Read more on [Enable File Upload](https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture-customization.html#enable-file-upload).
+Read more on [Enable File Upload](https://www.dynamsoft.com/mobile-document-scanner/docs/web/code-gallery/mobile-web-capture/customization-guide.html#enable-file-upload).

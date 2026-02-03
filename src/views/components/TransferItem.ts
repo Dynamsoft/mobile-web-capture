@@ -61,8 +61,9 @@ export class TransferItem {
     thumbnailContainer.textContent = "";
 
     if (doc.pages[0]) {
-      const data = await doc.getPageData(doc.pages[0]);
-      const url = URL.createObjectURL(data.display.data);
+      const pageData = doc.getPageData(doc.pages[0]);
+      const displayInfo = await pageData.display();
+      const url = URL.createObjectURL(displayInfo.data);
 
       const img = document.createElement("img");
       img.className = "mwc-image-thumbnail";
