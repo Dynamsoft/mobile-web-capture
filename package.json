@@ -1,6 +1,6 @@
 {
   "name": "dynamsoft-mobile-web-capture",
-  "version": "4.0.0",
+  "version": "4.0.0-beta-202602020003",
   "description": "Dynamsoft Mobile Web Capture (MWC) is an advanced sample designed to extend the features of Dynamsoft Mobile Document Scanner (MDS) with multi-document management, annotation, and uploading.",
   "main": "./dist/mwc.bundle.js",
   "module": "./dist/mwc.bundle.mjs",
