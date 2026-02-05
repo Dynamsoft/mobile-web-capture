@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MobileWebCapture } from 'dynamsoft-mobile-web-capture';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
