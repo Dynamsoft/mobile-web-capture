@@ -5,14 +5,20 @@ import { PageView } from "./views/PageView";
 import { TransferView } from "./views/TransferView";
 
 export const MWC = {
-  MobileWebCapture,
-  LibraryView,
-  DocumentView,
-  PageView,
-  TransferView,
+	MobileWebCapture,
+	LibraryView,
+	DocumentView,
+	PageView,
+	TransferView,
 };
 
-export type { UploadedDocument, ExportConfig, UploadStatus, EnumMWCViews, EnumAllViews } from "./views/utils/types";
+export type {
+	UploadedDocument,
+	ExportConfig,
+	UploadStatus,
+	EnumMWCViews,
+	EnumAllViews,
+} from "./views/utils/types";
 export type { MobileWebCaptureConfig } from "./MobileWebCapture";
 export type { LibraryViewConfig } from "./views/LibraryView";
 export type { PageViewConfig } from "./views/PageView";

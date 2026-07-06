@@ -1,16 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-
+import { useEffect } from "react";
 import { MobileWebCapture } from "dynamsoft-mobile-web-capture";
+import reactLogo from "./logo.svg";
+import "./App.css";
 
-@Component({
-	selector: "app-root",
-	standalone: true,
-	imports: [],
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.css"],
-})
-export class AppComponent implements OnInit {
-	ngOnInit(): void {
+function App() {
+	useEffect(() => {
 		// Visit https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture-customization.html for more customization options
 		// Configuration object for initializing the Mobile Web Capture instance
 		const config = {
@@ -24,7 +18,17 @@ export class AppComponent implements OnInit {
 
 		const mobileWebCapture = new MobileWebCapture(config);
 
-		// Launch the capture interface
 		mobileWebCapture.launch();
-	}
+	}, []);
+
+	return (
+		<div className="mwc-hello-world-page">
+			<div className="mwc-title">
+				<h2 className="mwc-title-text">Hello World for React</h2>
+				<img className="mwc-title-logo" src={reactLogo} alt="logo"></img>
+			</div>
+		</div>
+	);
 }
+
+export default App;
