@@ -411,6 +411,7 @@ declare class MobileWebCapture {
     private scanner;
     private mwcViews;
     private currentView;
+    private ddsViewContainers;
     private uploadedFiles;
     private isInitialized;
     private isUsingDefaultContainer;
@@ -427,6 +428,11 @@ declare class MobileWebCapture {
     private setupMWCViews;
     private getDDSViewsToCreate;
     private createMWCViewContainers;
+    /**
+     * Restore the DDS (scanner-workflow) view containers to the hidden, absolutely-positioned
+     * state MWC creates them in, because DDS >= 1.5.0 leaves its scanner view container visible after initialize().
+     */
+    private hideDDSViewContainers;
     private createDefaultMWCContainer;
     private checkForTemporaryLicense;
     private loadDDVcss;

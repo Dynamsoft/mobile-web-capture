@@ -2,33 +2,33 @@ import { DDV } from "dynamsoft-document-viewer";
 import { MWC_ICONS } from "../utils/icons";
 
 export interface TransferItemConfig {
-  docId: string;
-  onCheckedChange?: (docId: string, checked: boolean) => void;
+	docId: string;
+	onCheckedChange?: (docId: string, checked: boolean) => void;
 }
 
 export class TransferItem {
-  private dom: HTMLElement;
-  private selectedIcon: HTMLElement;
+	private dom: HTMLElement;
+	private selectedIcon: HTMLElement;
 
-  checked = false;
+	checked = false;
 
-  constructor(private config: TransferItemConfig) {
-    this.createUI();
-    this.bindEvents();
+	constructor(private config: TransferItemConfig) {
+		this.createUI();
+		this.bindEvents();
 
-    // Initialize check to false
-    this.toggleCheck(false);
-  }
+		// Initialize check to false
+		this.toggleCheck(false);
+	}
 
-  private createUI(): void {
-    this.createStylesheet();
+	private createUI(): void {
+		this.createStylesheet();
 
-    const doc = DDV.documentManager.getDocument(this.config.docId);
-    const count = doc.pages.length;
+		const doc = DDV.documentManager.getDocument(this.config.docId);
+		const count = doc.pages.length;
 
-    this.dom = document.createElement("div");
-    this.dom.className = "mwc-document-item";
-    this.dom.innerHTML = `
+		this.dom = document.createElement("div");
+		this.dom.className = "mwc-document-item";
+		this.dom.innerHTML = `
       <div class="mwc-transfer-info-container">
         <div class="mwc-transfer-thumbnail">
           ${MWC_ICONS.defaultDocument}
@@ -45,57 +45,57 @@ export class TransferItem {
       </div>
     `;
 
-    this.selectedIcon = this.dom.querySelector(".mwc-transfer-check-icon");
-    this.updateThumbnail(doc);
-  }
+		this.selectedIcon = this.dom.querySelector(".mwc-transfer-check-icon");
+		this.updateThumbnail(doc);
+	}
 
-  private createStylesheet() {
-    // Create style
-    const styleSheet = document.createElement("style");
-    styleSheet.textContent = DEFAULT_DOCUMENT_ITEM_STYLE;
-    document.head.appendChild(styleSheet);
-  }
+	private createStylesheet() {
+		// Create style
+		const styleSheet = document.createElement("style");
+		styleSheet.textContent = DEFAULT_DOCUMENT_ITEM_STYLE;
+		document.head.appendChild(styleSheet);
+	}
 
-  private async updateThumbnail(doc: any): Promise<void> {
-    const thumbnailContainer = this.dom.querySelector(".mwc-transfer-thumbnail");
-    thumbnailContainer.textContent = "";
+	private async updateThumbnail(doc: any): Promise<void> {
+		const thumbnailContainer = this.dom.querySelector(".mwc-transfer-thumbnail");
+		thumbnailContainer.textContent = "";
 
-    if (doc.pages[0]) {
-      const pageData = doc.getPageData(doc.pages[0]);
-      const displayInfo = await pageData.display();
-      const url = URL.createObjectURL(displayInfo.data);
+		if (doc.pages[0]) {
+			const pageData = doc.getPageData(doc.pages[0]);
+			const displayInfo = await pageData.display();
+			const url = URL.createObjectURL(displayInfo.data);
 
-      const img = document.createElement("img");
-      img.className = "mwc-image-thumbnail";
-      img.alt = "mwc-image-thumbnail";
-      img.src = url;
+			const img = document.createElement("img");
+			img.className = "mwc-image-thumbnail";
+			img.alt = "mwc-image-thumbnail";
+			img.src = url;
 
-      thumbnailContainer.append(img);
-    } else {
-      thumbnailContainer.innerHTML = MWC_ICONS.defaultDocument;
-    }
-  }
+			thumbnailContainer.append(img);
+		} else {
+			thumbnailContainer.innerHTML = MWC_ICONS.defaultDocument;
+		}
+	}
 
-  private bindEvents(): void {
-    this.dom.addEventListener("click", (e) => {
-      this.toggleCheck();
-    });
-  }
+	private bindEvents(): void {
+		this.dom.addEventListener("click", (e) => {
+			this.toggleCheck();
+		});
+	}
 
-  toggleCheck(check?: boolean): void {
-    this.checked = check ?? !this.checked;
-    this.selectedIcon.style.display = this.checked ? "flex" : "none";
-    this.dom.style.border = this.checked ? "2px solid #FE8E14" : "2px solid transparent";
-    this.config.onCheckedChange?.(this.config.docId, this.checked);
-  }
+	toggleCheck(check?: boolean): void {
+		this.checked = check ?? !this.checked;
+		this.selectedIcon.style.display = this.checked ? "flex" : "none";
+		this.dom.style.border = this.checked ? "2px solid #FE8E14" : "2px solid transparent";
+		this.config.onCheckedChange?.(this.config.docId, this.checked);
+	}
 
-  getDom(): HTMLElement {
-    return this.dom;
-  }
+	getDom(): HTMLElement {
+		return this.dom;
+	}
 
-  dispose() {
-    this.dom.remove();
-  }
+	dispose() {
+		this.dom.remove();
+	}
 }
 
 const DEFAULT_DOCUMENT_ITEM_STYLE = `

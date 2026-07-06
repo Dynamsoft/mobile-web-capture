@@ -9,11 +9,7 @@ export const mobileTopBarChildrenConfig: Record<"base" | "edit", any> = {
 		children: [
 			{
 				type: DDV.Elements.Layout,
-				children: [
-					DDV.Elements.Download,
-					DDV.Elements.Pagination,
-					DDV.Elements.Print,
-				],
+				children: [DDV.Elements.Download, DDV.Elements.Pagination, DDV.Elements.Print],
 			},
 		],
 	},
@@ -23,11 +19,7 @@ export const mobileTopBarChildrenConfig: Record<"base" | "edit", any> = {
 		children: [
 			{
 				type: DDV.Elements.Layout,
-				children: [
-					DDV.Elements.Undo,
-					DDV.Elements.Pagination,
-					DDV.Elements.Redo,
-				],
+				children: [DDV.Elements.Undo, DDV.Elements.Pagination, DDV.Elements.Redo],
 			},
 		],
 	},
