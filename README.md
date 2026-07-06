@@ -1,16 +1,16 @@
 # Scan Multi-Page Documents with Mobile Web Capture
 
-> [!TIP]
+> **Tip**
 > Prerequisites: read the [Introduction](https://www.dynamsoft.com/mobile-document-scanner/docs/web/introduction/index.html) before proceeding.
 
 **Mobile Web Capture (MWC)** is an advanced sample designed to extend the features of [Mobile Document Scanner (MDS)](https://www.dynamsoft.com/mobile-document-scanner/docs/web/guide/index.html) for managing and scanning multi-page documents. It integrates **Mobile Document Scanner (MDS)** functionality while offering additional features such as multi-document management, annotation, and uploading  by integrating **Dynamsoft Document Viewer (DDV)**, making it a comprehensive solution for managing complex document workflows.
 
-> [!TIP]
+> **Tip**
 > See it in action with the [Mobile Web Capture Demo](https://demo.dynamsoft.com/mobile-web-capture/).
 
 This guide walks you through building a web application that scans multi-page documents using **MWC**, with **pre-defined configurations**.
 
-> [!TIP]
+> **Tip**
 > If you are looking for a solution that scans single-page documents, please read the [Mobile Document Scanner User Guide](https://www.dynamsoft.com/mobile-document-scanner/docs/web/guide/index.html) instead.
 
 **Table of Contents**
@@ -33,7 +33,7 @@ This guide walks you through building a web application that scans multi-page do
 
 If you do not have a trial license for **MWC**, you can request one through our [customer portal](https://www.dynamsoft.com/customer/license/trialLicense?product=mwc&source=guide). The trial can be renewed twice for up to two months of free access.
 
-> [!NOTE]
+> **Note**
 > **MDS** and **MWC** share the same license keys. If you already have an **MDS** license, you can use it for **MWC**, and vice versa.
 
 ### Get a Full License
@@ -80,7 +80,7 @@ Follow these steps:
 	```
 	Once the server is running, open the application in a browser using the address provided in the terminal output after running `npm run dev`.
 
-> [!TIP]
+> **Tip**
 > See the server configuration details in [`/dev-server/index.js`](https://github.com/Dynamsoft/mobile-web-capture/blob/main/dev-server/index.js).
 
 ### Option 2: Use Precompiled Script
@@ -95,10 +95,10 @@ To use the precompiled script, simply include the following URL in a `<script>` 
 
 Below is the complete Hello World sample page that uses this precompiled script from a CDN.
 
-> [!NOTE]
+> **Note**
 > This code is identical to the [`/samples/hello-world.html`](https://github.com/Dynamsoft/mobile-web-capture/blob/main/samples/hello-world.html) file mentioned in the [Build from Source](#option-1-build-from-source) section, except for the script source.
 
-> [!WARNING]
+> **Warning**
 > **Don't forget** to replace `"YOUR_LICENSE_KEY_HERE"` with your actual license key.
 
 ```html
@@ -136,7 +136,7 @@ Alternatively, you can use other servers like `IIS` or `Apache`, but they are ou
 
 Let's walk through the code in the Hello World sample to understand how it works.
 
-> [!TIP]
+> **Tip**
 > Instead of using the code above, an alternative way to view the full code is by visiting the [Mobile Web Capture Hello World Sample](https://github.com/Dynamsoft/mobile-web-capture/blob/main/samples/hello-world.html).
 
 ### Reference MWC
@@ -185,7 +185,7 @@ API Reference: [`MobileWebCapture()`](https://www.dynamsoft.com/mobile-document-
 
 This step creates the **MWC** UI, which, when launched, occupies the entire visible area of the browser window by default. If needed, you can specify a container to restrict the UI's size. For more details, refer to [Specify the UI Container](https://www.dynamsoft.com/mobile-document-scanner/docs/web/code-gallery/mobile-web-capture/customization-guide.html#specify-the-ui-container).
 
-> [!WARNING]
+> **Warning**
 > A **license key** is required for the instantiation.
 
 ### Launch MWC
@@ -199,7 +199,7 @@ API Reference: [`launch()`](https://www.dynamsoft.com/mobile-web-capture/docs/ap
 
 This step launches the UI, starting in **`DocumentView`**, where the user can begin building a document in two ways:
 
-> [!NOTE]
+> **Note**
 > The `DocumentView` requires a document name, which is passed as a parameter in the `launch()` method.
 
 1. **Capture**: Capture image(s) of the document pages.
