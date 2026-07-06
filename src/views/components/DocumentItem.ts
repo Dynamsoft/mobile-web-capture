@@ -3,34 +3,34 @@ import { MWC_ICONS } from "../utils/icons";
 import { createStyle } from "../utils";
 
 export interface DocumentItemConfig {
-  docId: string;
-  onDocumentClick?: (docId: string) => void;
-  onCheckedChange?: (docId: string, checked: boolean) => void;
-  onRename?: (docId: string) => void;
+	docId: string;
+	onDocumentClick?: (docId: string) => void;
+	onCheckedChange?: (docId: string, checked: boolean) => void;
+	onRename?: (docId: string) => void;
 }
 
 export class DocumentItem {
-  private dom: HTMLElement;
-  private checkbox: HTMLInputElement;
-  private renameBtn: HTMLElement;
+	private dom: HTMLElement;
+	private checkbox: HTMLInputElement;
+	private renameBtn: HTMLElement;
 
-  checked = false;
-  isSelectMode = false;
+	checked = false;
+	isSelectMode = false;
 
-  constructor(private config: DocumentItemConfig) {
-    this.createUI();
-    this.bindEvents();
-  }
+	constructor(private config: DocumentItemConfig) {
+		this.createUI();
+		this.bindEvents();
+	}
 
-  private createUI(): void {
-    createStyle("mwc-document-item-style", DEFAULT_DOCUMENT_ITEM_STYLE);
+	private createUI(): void {
+		createStyle("mwc-document-item-style", DEFAULT_DOCUMENT_ITEM_STYLE);
 
-    const doc = DDV.documentManager.getDocument(this.config.docId);
-    const count = doc.pages.length;
+		const doc = DDV.documentManager.getDocument(this.config.docId);
+		const count = doc.pages.length;
 
-    this.dom = document.createElement("div");
-    this.dom.className = "mwc-document-item";
-    this.dom.innerHTML = `
+		this.dom = document.createElement("div");
+		this.dom.className = "mwc-document-item";
+		this.dom.innerHTML = `
       <div class="mwc-document-info-container">
         <div class="mwc-document-thumbnail">
           ${MWC_ICONS.defaultDocument}
@@ -48,93 +48,93 @@ export class DocumentItem {
       <input type="checkbox" class="mwc-document-checkbox">
     `;
 
-    this.checkbox = this.dom.querySelector(".mwc-document-checkbox");
-    this.renameBtn = this.dom.querySelector(".mwc-document-rename-btn");
-    this.updateThumbnail(doc);
-  }
+		this.checkbox = this.dom.querySelector(".mwc-document-checkbox");
+		this.renameBtn = this.dom.querySelector(".mwc-document-rename-btn");
+		this.updateThumbnail(doc);
+	}
 
-  private async updateThumbnail(doc: any): Promise<void> {
-    const thumbnailContainer = this.dom.querySelector(".mwc-document-thumbnail");
-    thumbnailContainer.textContent = "";
+	private async updateThumbnail(doc: any): Promise<void> {
+		const thumbnailContainer = this.dom.querySelector(".mwc-document-thumbnail");
+		thumbnailContainer.textContent = "";
 
-    if (doc.pages[0]) {
-      const pageData = doc.getPageData(doc.pages[0]);
-      const displayInfo = await pageData.display();
-      const url = URL.createObjectURL(displayInfo.data);
+		if (doc.pages[0]) {
+			const pageData = doc.getPageData(doc.pages[0]);
+			const displayInfo = await pageData.display();
+			const url = URL.createObjectURL(displayInfo.data);
 
-      const img = document.createElement("img");
-      img.className = "mwc-image-thumbnail";
-      img.alt = "mwc-image-thumbnail";
-      img.src = url;
+			const img = document.createElement("img");
+			img.className = "mwc-image-thumbnail";
+			img.alt = "mwc-image-thumbnail";
+			img.src = url;
 
-      thumbnailContainer.append(img);
-    } else {
-      thumbnailContainer.innerHTML = MWC_ICONS.defaultDocument;
-    }
-  }
+			thumbnailContainer.append(img);
+		} else {
+			thumbnailContainer.innerHTML = MWC_ICONS.defaultDocument;
+		}
+	}
 
-  private bindEvents(): void {
-    this.dom.addEventListener("click", (e) => {
-      if (e.target !== this.checkbox) {
-        if (this.isSelectMode) {
-          this.toggleCheck();
-        } else {
-          this.config.onDocumentClick?.(this.config.docId);
-        }
-      }
-    });
+	private bindEvents(): void {
+		this.dom.addEventListener("click", (e) => {
+			if (e.target !== this.checkbox) {
+				if (this.isSelectMode) {
+					this.toggleCheck();
+				} else {
+					this.config.onDocumentClick?.(this.config.docId);
+				}
+			}
+		});
 
-    this.checkbox.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.toggleCheck();
-    });
+		this.checkbox.addEventListener("click", (e) => {
+			e.stopPropagation();
+			this.toggleCheck();
+		});
 
-    // Add event listener
-    this.renameBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.config.onRename?.(this.config.docId);
-    });
-  }
+		// Add event listener
+		this.renameBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			this.config.onRename?.(this.config.docId);
+		});
+	}
 
-  setSelectMode(show: boolean): void {
-    this.isSelectMode = show;
+	setSelectMode(show: boolean): void {
+		this.isSelectMode = show;
 
-    if (!show) {
-      this.toggleCheck(false);
-    }
-  }
+		if (!show) {
+			this.toggleCheck(false);
+		}
+	}
 
-  toggleCheck(check?: boolean): void {
-    this.checked = check ?? !this.checked;
-    this.checkbox.checked = this.checked;
-    this.dom.classList.toggle("selected", this.checked);
-    this.config.onCheckedChange?.(this.config.docId, this.checked);
-  }
+	toggleCheck(check?: boolean): void {
+		this.checked = check ?? !this.checked;
+		this.checkbox.checked = this.checked;
+		this.dom.classList.toggle("selected", this.checked);
+		this.config.onCheckedChange?.(this.config.docId, this.checked);
+	}
 
-  getDom(): HTMLElement {
-    return this.dom;
-  }
+	getDom(): HTMLElement {
+		return this.dom;
+	}
 
-  getUid() {
-    return this.config.docId;
-  }
+	getUid() {
+		return this.config.docId;
+	}
 
-  update(): void {
-    const doc = DDV.documentManager.getDocument(this.config.docId);
-    if (!doc) return;
+	update(): void {
+		const doc = DDV.documentManager.getDocument(this.config.docId);
+		if (!doc) return;
 
-    const nameElement = this.dom.querySelector(".mwc-document-name");
-    const pagesElement = this.dom.querySelector(".mwc-document-pages");
+		const nameElement = this.dom.querySelector(".mwc-document-name");
+		const pagesElement = this.dom.querySelector(".mwc-document-pages");
 
-    nameElement.textContent = doc.name;
-    pagesElement.textContent = doc.pages.length === 1 ? "1 page" : `${doc.pages.length} pages`;
+		nameElement.textContent = doc.name;
+		pagesElement.textContent = doc.pages.length === 1 ? "1 page" : `${doc.pages.length} pages`;
 
-    this.updateThumbnail(doc);
-  }
+		this.updateThumbnail(doc);
+	}
 
-  dispose() {
-    this.dom.remove();
-  }
+	dispose() {
+		this.dom.remove();
+	}
 }
 
 const DEFAULT_DOCUMENT_ITEM_STYLE = `

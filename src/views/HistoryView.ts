@@ -8,64 +8,64 @@ import { ModalVariant, showToast } from "./components/Modal";
 export type HistoryCallerView = EnumMWCViews.Document | EnumMWCViews.Library | EnumMWCViews.Page;
 
 export interface HistoryToolbarButtonsConfig {
-  back?: ToolbarButtonConfig;
+	back?: ToolbarButtonConfig;
 }
 
 type HistoryToolbarButtons = Record<keyof HistoryToolbarButtonsConfig, HTMLElement>;
 
 export interface HistoryViewConfig {
-  container?: HTMLElement;
+	container?: HTMLElement;
 
-  exportConfig?: ExportConfig;
-  getUploadedDocuments?: () => UploadedDocument[];
-  updateUploadedDocuments?: (files: UploadedDocument[]) => void;
+	exportConfig?: ExportConfig;
+	getUploadedDocuments?: () => UploadedDocument[];
+	updateUploadedDocuments?: (files: UploadedDocument[]) => void;
 
-  onBack?: (caller: HistoryCallerView) => void;
+	onBack?: (caller: HistoryCallerView) => void;
 
-  // For Public
-  emptyContentConfig?: EmptyContentConfig;
-  toolbarButtonsConfig?: HistoryToolbarButtonsConfig;
+	// For Public
+	emptyContentConfig?: EmptyContentConfig;
+	toolbarButtonsConfig?: HistoryToolbarButtonsConfig;
 }
 
 export class HistoryView extends MWCView {
-  private currentCaller: HistoryCallerView = EnumMWCViews.Library;
-  private toolbarBtn: HistoryToolbarButtons = {
-    back: null,
-  };
+	private currentCaller: HistoryCallerView = EnumMWCViews.Library;
+	private toolbarBtn: HistoryToolbarButtons = {
+		back: null,
+	};
 
-  constructor(protected config: HistoryViewConfig) {
-    super(config);
-  }
+	constructor(protected config: HistoryViewConfig) {
+		super(config);
+	}
 
-  initialize() {
-    createStyle("mwc-history-view-style", HISTORY_VUEW_STYLE);
+	initialize() {
+		createStyle("mwc-history-view-style", HISTORY_VUEW_STYLE);
 
-    super.initialize();
-    this.updateEmptyContentHTML();
-    this.setVisible(false);
-  }
+		super.initialize();
+		this.updateEmptyContentHTML();
+		this.setVisible(false);
+	}
 
-  setVisible(visible: boolean, config?: { caller: HistoryCallerView }) {
-    super.setVisible(visible);
+	setVisible(visible: boolean, config?: { caller: HistoryCallerView }) {
+		super.setVisible(visible);
 
-    if (visible) {
-      this.currentCaller = config.caller;
+		if (visible) {
+			this.currentCaller = config.caller;
 
-      this.showContent(!!this.config.getUploadedDocuments()?.length);
-      this.loadUploadedFiles();
-    }
-  }
+			this.showContent(!!this.config.getUploadedDocuments()?.length);
+			this.loadUploadedFiles();
+		}
+	}
 
-  protected createHeader(): void {
-    super.createHeader();
+	protected createHeader(): void {
+		super.createHeader();
 
-    this.MWCViewElements.headerContainer.innerHTML = `
+		this.MWCViewElements.headerContainer.innerHTML = `
       <div class="mwc-view-header-title">Upload History</div>
     `;
-  }
+	}
 
-  protected updateEmptyContentHTML() {
-    const DEFAULT_EMPTY_HISTORY_VIEW = `
+	protected updateEmptyContentHTML() {
+		const DEFAULT_EMPTY_HISTORY_VIEW = `
     <div class="mwc-default-empty-history">
       ${MWC_ICONS.emptyLibrary}
       <div class="title">
@@ -74,87 +74,89 @@ export class HistoryView extends MWCView {
     </div>
     `;
 
-    super.setEmptyContent(this.config.emptyContentConfig || DEFAULT_EMPTY_HISTORY_VIEW);
-  }
+		super.setEmptyContent(this.config.emptyContentConfig || DEFAULT_EMPTY_HISTORY_VIEW);
+	}
 
-  protected createToolbars(): void {
-    super.createToolbars();
+	protected createToolbars(): void {
+		super.createToolbars();
 
-    const { toolbarButtonsConfig } = this.config;
+		const { toolbarButtonsConfig } = this.config;
 
-    const buttons = [
-      null,
-      null,
-      null,
-      {
-        id: "mwc-history-back",
-        icon: toolbarButtonsConfig?.back?.icon || MWC_ICONS.back,
-        label: toolbarButtonsConfig?.back?.label || "Back",
-        className: toolbarButtonsConfig?.back?.className || "",
-        isHidden: toolbarButtonsConfig?.back?.isHidden,
-        onClick: () => this.config.onBack?.(this.currentCaller),
-      },
-    ];
+		const buttons = [
+			null,
+			null,
+			null,
+			{
+				id: "mwc-history-back",
+				icon: toolbarButtonsConfig?.back?.icon || MWC_ICONS.back,
+				label: toolbarButtonsConfig?.back?.label || "Back",
+				className: toolbarButtonsConfig?.back?.className || "",
+				isHidden: toolbarButtonsConfig?.back?.isHidden,
+				onClick: () => this.config.onBack?.(this.currentCaller),
+			},
+		];
 
-    buttons.forEach((btn) => {
-      const btnElement = this.createToolbarButton(btn);
-      if (btn) {
-        this.toolbarBtn[btn.id.split("-").pop() as keyof HistoryToolbarButtons] = btnElement;
-      }
-      this.MWCViewElements.toolbarContainer.appendChild(btnElement);
-    });
-  }
+		buttons.forEach((btn) => {
+			const btnElement = this.createToolbarButton(btn);
+			if (btn) {
+				this.toolbarBtn[btn.id.split("-").pop() as keyof HistoryToolbarButtons] = btnElement;
+			}
+			this.MWCViewElements.toolbarContainer.appendChild(btnElement);
+		});
+	}
 
-  private loadUploadedFiles() {
-    // Reset content container
-    this.MWCViewElements.contentContainer.textContent = "";
+	private loadUploadedFiles() {
+		// Reset content container
+		this.MWCViewElements.contentContainer.textContent = "";
 
-    this.config.getUploadedDocuments()?.forEach((file) => {
-      const historyItem = new DocumentHistoryItem({
-        container: this.config.container,
-        doc: file,
-        onDeleteDocument: () => this.handleHistoryDelete(file),
-        onDownloadDocument: () => this.handleHistoryDownload(file),
-      });
+		this.config.getUploadedDocuments()?.forEach((file) => {
+			const historyItem = new DocumentHistoryItem({
+				container: this.config.container,
+				doc: file,
+				onDeleteDocument: () => this.handleHistoryDelete(file),
+				onDownloadDocument: () => this.handleHistoryDownload(file),
+			});
 
-      this.MWCViewElements.contentContainer.append(historyItem.getDom());
-    });
-  }
+			this.MWCViewElements.contentContainer.append(historyItem.getDom());
+		});
+	}
 
-  private handleHistoryDelete(doc: UploadedDocument) {
-    if (doc) {
-      this.config?.exportConfig
-        ?.deleteFromServer(doc)
-        .then(async () => {
-          const newList = this.config.getUploadedDocuments()?.filter((file) => file.uploadTime !== doc.uploadTime);
-          this.config.updateUploadedDocuments(newList);
+	private handleHistoryDelete(doc: UploadedDocument) {
+		if (doc) {
+			this.config?.exportConfig
+				?.deleteFromServer(doc)
+				.then(async () => {
+					const newList = this.config
+						.getUploadedDocuments()
+						?.filter((file) => file.uploadTime !== doc.uploadTime);
+					this.config.updateUploadedDocuments(newList);
 
-          this.showContent(!!this.config.getUploadedDocuments()?.length);
-          await showToast(this.config.container, "Deleted", ModalVariant.SUCCESS);
-        })
-        .catch(async () => {
-          await showToast(this.config.container, "Failed", ModalVariant.ERROR);
-        });
-    }
-  }
+					this.showContent(!!this.config.getUploadedDocuments()?.length);
+					await showToast(this.config.container, "Deleted", ModalVariant.SUCCESS);
+				})
+				.catch(async () => {
+					await showToast(this.config.container, "Failed", ModalVariant.ERROR);
+				});
+		}
+	}
 
-  private handleHistoryDownload(doc: UploadedDocument) {
-    this.config?.exportConfig
-      ?.downloadFromServer(doc)
-      .then(async () => {
-        await showToast(this.config.container, "Downloaded", ModalVariant.SUCCESS);
-      })
-      .catch(async () => {
-        await showToast(this.config.container, "Failed", ModalVariant.ERROR);
-      });
-  }
+	private handleHistoryDownload(doc: UploadedDocument) {
+		this.config?.exportConfig
+			?.downloadFromServer(doc)
+			.then(async () => {
+				await showToast(this.config.container, "Downloaded", ModalVariant.SUCCESS);
+			})
+			.catch(async () => {
+				await showToast(this.config.container, "Failed", ModalVariant.ERROR);
+			});
+	}
 
-  dispose() {
-    if (this.config.container) {
-      this.config.container.style.display = "none";
-      this.MWCViewElements.contentContainer.textContent = "";
-    }
-  }
+	dispose() {
+		if (this.config.container) {
+			this.config.container.style.display = "none";
+			this.MWCViewElements.contentContainer.textContent = "";
+		}
+	}
 }
 
 const HISTORY_VUEW_STYLE = `
