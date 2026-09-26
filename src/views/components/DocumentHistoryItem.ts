@@ -3,26 +3,26 @@ import { createStyle, formatTicks } from "../utils";
 import { ModalType, ModalVariant, showModal, showToast } from "../components/Modal";
 
 export interface DocumentHistoryItemConfig {
-  container: HTMLElement;
-  doc: UploadedDocument;
-  onDeleteDocument: (doc: UploadedDocument) => void;
-  onDownloadDocument: (doc: UploadedDocument) => void;
+	container: HTMLElement;
+	doc: UploadedDocument;
+	onDeleteDocument: (doc: UploadedDocument) => void;
+	onDownloadDocument: (doc: UploadedDocument) => void;
 }
 
 export class DocumentHistoryItem {
-  private dom: HTMLElement;
+	private dom: HTMLElement;
 
-  constructor(private config: DocumentHistoryItemConfig) {
-    this.createUI();
-    this.bindEvents();
-  }
+	constructor(private config: DocumentHistoryItemConfig) {
+		this.createUI();
+		this.bindEvents();
+	}
 
-  private createUI() {
-    createStyle("mwc-history-item-style", DEFAULT_HISTORY_ITEM_STYLE);
+	private createUI() {
+		createStyle("mwc-history-item-style", DEFAULT_HISTORY_ITEM_STYLE);
 
-    this.dom = document.createElement("div");
-    this.dom.className = "mwc-library-view-history-item";
-    this.dom.innerHTML = `
+		this.dom = document.createElement("div");
+		this.dom.className = "mwc-library-view-history-item";
+		this.dom.innerHTML = `
       <div class="mwc-library-view-history-name">${this.config.doc.fileName}</div>
       <div class="mwc-library-view-history-time">${formatTicks(this.config.doc.uploadTime) || ""}</div>
       <div class="mwc-library-view-history-actions">
@@ -31,48 +31,48 @@ export class DocumentHistoryItem {
         <button class="mwc-library-view-history-action-btn download">Download</button>
       </div>
     `;
-  }
+	}
 
-  private bindEvents() {
-    const deleteBtn = this.dom.querySelector(".delete");
-    const downloadBtn = this.dom.querySelector(".download");
+	private bindEvents() {
+		const deleteBtn = this.dom.querySelector(".delete");
+		const downloadBtn = this.dom.querySelector(".download");
 
-    deleteBtn?.addEventListener("click", () => this.handleDelete());
-    downloadBtn?.addEventListener("click", () => this.handleDownload());
-  }
+		deleteBtn?.addEventListener("click", () => this.handleDelete());
+		downloadBtn?.addEventListener("click", () => this.handleDownload());
+	}
 
-  private async handleDelete() {
-    const confirmed = await showModal({
-      container: this.config.container, // Assuming modal can work with document.body
-      type: ModalType.CONFIRM,
-      variant: ModalVariant.WARNING,
-      title: "Delete Document",
-      message: "Are you sure you want to delete this document from the server?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
-      showCloseBtn: true,
-    });
+	private async handleDelete() {
+		const confirmed = await showModal({
+			container: this.config.container, // Assuming modal can work with document.body
+			type: ModalType.CONFIRM,
+			variant: ModalVariant.WARNING,
+			title: "Delete Document",
+			message: "Are you sure you want to delete this document from the server?",
+			confirmText: "Delete",
+			cancelText: "Cancel",
+			showCloseBtn: true,
+		});
 
-    if (confirmed) {
-      await this.config?.onDeleteDocument?.(this.config.doc);
+		if (confirmed) {
+			await this.config?.onDeleteDocument?.(this.config.doc);
 
-      this.dispose();
+			this.dispose();
 
-      await showToast(this.config.container, "Deleted", ModalVariant.SUCCESS);
-    }
-  }
+			await showToast(this.config.container, "Deleted", ModalVariant.SUCCESS);
+		}
+	}
 
-  private async handleDownload() {
-    await this.config?.onDownloadDocument?.(this.config.doc);
-  }
+	private async handleDownload() {
+		await this.config?.onDownloadDocument?.(this.config.doc);
+	}
 
-  getDom() {
-    return this.dom;
-  }
+	getDom() {
+		return this.dom;
+	}
 
-  dispose() {
-    this.dom.remove();
-  }
+	dispose() {
+		this.dom.remove();
+	}
 }
 
 const DEFAULT_HISTORY_ITEM_STYLE = `

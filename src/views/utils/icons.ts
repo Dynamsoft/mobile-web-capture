@@ -1,5 +1,5 @@
 export const MWC_ICONS = {
-  library: `
+	library: `
   <svg id="library" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="24" viewBox="0 0 18 24">
     <defs>
       <clipPath id="libraryclip-path">
@@ -14,7 +14,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  cameraCapture: `
+	cameraCapture: `
   <svg id="camera-capture" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="24" viewBox="0 0 28 24">
     <defs>
       <clipPath id="cameraCaptureclip-path">
@@ -27,7 +27,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  galleryImport: `
+	galleryImport: `
   <svg id="gallery-import" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
     <defs>
       <clipPath id="galleryImportclip-path">
@@ -41,7 +41,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  fileOperations: `
+	fileOperations: `
   <svg id="file-operations" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
     <defs>
       <clipPath id="fileOpclip-path">
@@ -54,7 +54,7 @@ export const MWC_ICONS = {
     </g>
   </svg>  
   `,
-  copyTo: `
+	copyTo: `
   <svg id="copy-to" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="24" viewBox="0 0 20 24">
     <defs>
       <clipPath id="copyToclip-path">
@@ -67,7 +67,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  moveTo: `
+	moveTo: `
   <svg id="move-to" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
     <defs>
       <clipPath id="moveToclip-path">
@@ -90,10 +90,10 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  selectAll: `
+	selectAll: `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="1"> <path d="M9 11l3 3l8 -8"></path> <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path> </svg> 
   `,
-  downloadPDF: `
+	downloadPDF: `
  <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <style>
@@ -117,7 +117,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
   `,
-  downloadPNG: `
+	downloadPNG: `
     <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 24 24">
   <defs>
     <style>
@@ -141,7 +141,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
   `,
-  delete: `
+	delete: `
   <svg id="delete" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
     <defs>
       <clipPath id="deleteclip-path">
@@ -156,7 +156,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  back: `
+	back: `
   <svg id="back" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
     <defs>
       <clipPath id="backclip-path">
@@ -169,7 +169,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
   `,
-  emptyLibrary: `
+	emptyLibrary: `
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="291.648" height="257.641" viewBox="0 0 291.648 257.641">
     <defs>
       <clipPath id="emptyLibraryclip-path">
@@ -202,7 +202,7 @@ export const MWC_ICONS = {
     </g>
   </svg>
     `,
-  document: `
+	document: `
     <svg id="document" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="24" viewBox="0 0 20 24">
       <defs>
         <clipPath id="documentclip-path">
@@ -217,7 +217,7 @@ export const MWC_ICONS = {
       </g>
     </svg>
     `,
-  newDoc: `
+	newDoc: `
     <svg id="add-new-doc" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
       <defs>
         <clipPath id="newDocclip-path">
@@ -231,7 +231,7 @@ export const MWC_ICONS = {
     </svg>
     `,
 
-  uploadedFiles: `
+	uploadedFiles: `
     <svg id="uploaded-files" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
       <defs>
         <clipPath id="uploadedFilesclip-path">
@@ -245,7 +245,7 @@ export const MWC_ICONS = {
       </g>
     </svg>  
     `,
-  print: `
+	print: `
     <svg id="print" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
       <defs>
         <clipPath id="printclip-path">
@@ -261,7 +261,7 @@ export const MWC_ICONS = {
       </g>
     </svg>
     `,
-  uploadPDF: `
+	uploadPDF: `
      <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
@@ -285,7 +285,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
     `,
-  uploadPNG: `
+	uploadPNG: `
 <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
@@ -309,7 +309,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
     `,
-  sharePDF: `
+	sharePDF: `
  <svg id="sharePdf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
@@ -332,7 +332,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
   `,
-  sharePNG: `
+	sharePNG: `
 <svg id="sharePng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
   <defs>
     <style>
@@ -355,7 +355,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
   `,
-  done: `<svg id="done" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+	done: `<svg id="done" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <clipPath id="done-path">
       <rect id="Rectangle_2775" data-name="Rectangle 2775" width="24" height="24" fill="#fe8e14"/>
@@ -367,7 +367,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  captureAnother: `
+	captureAnother: `
 <svg id="capture-another" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.761" height="23" viewBox="0 0 28.761 23">
   <defs>
     <clipPath id="captureAnotherclip-path">
@@ -381,7 +381,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  edit: `
+	edit: `
 <svg id="edit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.002" height="24" viewBox="0 0 24.002 24">
   <defs>
     <clipPath id="editclip-path">
@@ -394,7 +394,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  crop: `
+	crop: `
 <svg id="crop" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <clipPath id="cropclip-path">
@@ -407,7 +407,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  rotate: `
+	rotate: `
 <svg id="rotate" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <clipPath id="rotateclip-path">
@@ -420,7 +420,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  annotate: `
+	annotate: `
 <svg id="annotate" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <clipPath id="annotateclip-path">
@@ -437,21 +437,21 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  arrowDown: `
+	arrowDown: `
 <svg xmlns="http://www.w3.org/2000/svg" width="6.5" height="4.008" viewBox="0 0 6.5 4.008">
   <g id="arrow-down" transform="translate(1145.886 -1660.582) rotate(90)">
     <path id="Path_75" data-name="Path 75" d="M1661.34,1145.886l3.25-3.25-3.25-3.25-.758.758,2.492,2.492-2.492,2.492Z" transform="translate(0)" fill="#fff"/>
   </g>
 </svg>
 `,
-  arrowUp: `
+	arrowUp: `
 <svg xmlns="http://www.w3.org/2000/svg" width="6.5" height="4.008" viewBox="0 0 6.5 4.008">
   <g id="arrow-up" transform="translate(-1139.386 1664.59) rotate(-90)">
     <path id="Path_75" data-name="Path 75" d="M1661.34,1145.886l3.25-3.25-3.25-3.25-.758.758,2.492,2.492-2.492,2.492Z" transform="translate(0)" fill="#fe8e14"/>
   </g>
 </svg>
 `,
-  defaultDocument: `
+	defaultDocument: `
 <svg id="document" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="24" viewBox="0 0 20 24">
   <defs>
     <clipPath id="documentclip-path">
@@ -466,7 +466,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  selectedCircle: `
+	selectedCircle: `
 <svg id="selected-circle" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <clipPath id="selected-circleclip-path">
@@ -479,7 +479,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
 `,
-  filter: `
+	filter: `
 <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 24" width="25" height="24" >
   <defs>
     <style>
@@ -494,7 +494,7 @@ export const MWC_ICONS = {
   </g>
 </svg>
   `,
-  close: `
+	close: `
             <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

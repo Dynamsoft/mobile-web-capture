@@ -1,229 +1,231 @@
 import { createStyle, isSVGString } from "../utils";
 
 interface ViewConfig {
-  container?: HTMLElement;
-  // className?: string;
-  // style?: Partial<CSSStyleDeclaration>;
+	container?: HTMLElement;
+	// className?: string;
+	// style?: Partial<CSSStyleDeclaration>;
 }
 
 export type EmptyContentConfig =
-  | string
-  | HTMLElement
-  | HTMLTemplateElement
-  | {
-      templatePath: string; // Path to HTML template file
-    };
+	| string
+	| HTMLElement
+	| HTMLTemplateElement
+	| {
+			templatePath: string; // Path to HTML template file
+	  };
 
 export type ToolbarButtonConfig = Pick<ToolbarButton, "icon" | "label" | "className" | "isHidden">;
 
 interface ToolbarButton {
-  id: string;
-  icon: string;
-  label: string;
-  onClick?: () => void;
-  className?: string;
-  isDisabled?: boolean;
-  isHidden?: boolean;
+	id: string;
+	icon: string;
+	label: string;
+	onClick?: () => void;
+	className?: string;
+	isDisabled?: boolean;
+	isHidden?: boolean;
 }
 
 interface MWCViewElementsInterface {
-  headerContainer: HTMLElement;
-  contentContainer: HTMLElement;
-  emptyContentContainer: HTMLElement;
-  toolbarContainer: HTMLElement;
-  selectedToolbarContainer: HTMLElement;
+	headerContainer: HTMLElement;
+	contentContainer: HTMLElement;
+	emptyContentContainer: HTMLElement;
+	toolbarContainer: HTMLElement;
+	selectedToolbarContainer: HTMLElement;
 }
 
 export default abstract class MWCView {
-  protected MWCViewElements: MWCViewElementsInterface = {
-    headerContainer: null,
-    contentContainer: null,
-    emptyContentContainer: null,
-    toolbarContainer: null,
-    selectedToolbarContainer: null,
-  };
+	protected MWCViewElements: MWCViewElementsInterface = {
+		headerContainer: null,
+		contentContainer: null,
+		emptyContentContainer: null,
+		toolbarContainer: null,
+		selectedToolbarContainer: null,
+	};
 
-  protected isSelectionMode: boolean = false;
+	protected isSelectionMode: boolean = false;
 
-  constructor(protected config: ViewConfig) {}
+	constructor(protected config: ViewConfig) {}
 
-  initialize(): void {
-    if (!this.config.container) {
-      throw new Error("Create a container element");
-    }
+	initialize(): void {
+		if (!this.config.container) {
+			throw new Error("Create a container element");
+		}
 
-    this.createMWCView();
-  }
+		this.createMWCView();
+	}
 
-  protected createMWCView() {
-    // Reset container
-    this.config.container.textContent = "";
+	protected createMWCView() {
+		// Reset container
+		this.config.container.textContent = "";
 
-    createStyle("mwc-views-style", DEFAULT_MWC_VIEW_STYLE);
+		createStyle("mwc-views-style", DEFAULT_MWC_VIEW_STYLE);
 
-    this.createHeader();
-    this.createContent();
-    this.createEmptyContent();
-    this.createToolbars();
-  }
+		this.createHeader();
+		this.createContent();
+		this.createEmptyContent();
+		this.createToolbars();
+	}
 
-  protected createHeader(enable: boolean = true): void {
-    if (!enable) return;
+	protected createHeader(enable: boolean = true): void {
+		if (!enable) return;
 
-    this.MWCViewElements.headerContainer = document.createElement("div");
-    this.MWCViewElements.headerContainer.className = "mwc-view-header";
-    this.config.container.appendChild(this.MWCViewElements.headerContainer);
-  }
+		this.MWCViewElements.headerContainer = document.createElement("div");
+		this.MWCViewElements.headerContainer.className = "mwc-view-header";
+		this.config.container.appendChild(this.MWCViewElements.headerContainer);
+	}
 
-  protected createContent(): void {
-    this.MWCViewElements.contentContainer = document.createElement("div");
-    this.MWCViewElements.contentContainer.className = "mwc-view-content";
-    this.config.container.appendChild(this.MWCViewElements.contentContainer);
-  }
+	protected createContent(): void {
+		this.MWCViewElements.contentContainer = document.createElement("div");
+		this.MWCViewElements.contentContainer.className = "mwc-view-content";
+		this.config.container.appendChild(this.MWCViewElements.contentContainer);
+	}
 
-  protected createEmptyContent(): void {
-    this.MWCViewElements.emptyContentContainer = document.createElement("div");
-    this.MWCViewElements.emptyContentContainer.className = "mwc-view-content-empty";
-    this.config.container.appendChild(this.MWCViewElements.emptyContentContainer);
-  }
+	protected createEmptyContent(): void {
+		this.MWCViewElements.emptyContentContainer = document.createElement("div");
+		this.MWCViewElements.emptyContentContainer.className = "mwc-view-content-empty";
+		this.config.container.appendChild(this.MWCViewElements.emptyContentContainer);
+	}
 
-  protected abstract updateEmptyContentHTML(): void;
+	protected abstract updateEmptyContentHTML(): void;
 
-  protected async setEmptyContent(content: EmptyContentConfig): Promise<void> {
-    const container = this.MWCViewElements.emptyContentContainer;
-    container.textContent = ""; // Clear existing content
+	protected async setEmptyContent(content: EmptyContentConfig): Promise<void> {
+		const container = this.MWCViewElements.emptyContentContainer;
+		container.textContent = ""; // Clear existing content
 
-    try {
-      if (typeof content === "object" && "templatePath" in content) {
-        // Load template from file
-        const response = await fetch(content.templatePath);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const templateContent = await response.text();
+		try {
+			if (typeof content === "object" && "templatePath" in content) {
+				// Load template from file
+				const response = await fetch(content.templatePath);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const templateContent = await response.text();
 
-        container.innerHTML = templateContent;
+				container.innerHTML = templateContent;
 
-        // Remove the outer template tags if they exist
-        const templateElement = container.querySelector("template");
-        if (templateElement) {
-          container.innerHTML = templateElement.innerHTML;
-        }
+				// Remove the outer template tags if they exist
+				const templateElement = container.querySelector("template");
+				if (templateElement) {
+					container.innerHTML = templateElement.innerHTML;
+				}
 
-        // Ensure proper styling
-        container.style.display = "flex";
-        container.style.height = "100%";
-        container.style.alignItems = "center";
-        container.style.justifyContent = "center";
-      } else if (content instanceof HTMLTemplateElement) {
-        // For template elements, clone the content
-        const clone = document.importNode(content.content, true);
-        container.appendChild(clone);
-      } else if (content instanceof HTMLElement) {
-        // Regular HTML elements
-        container.appendChild(content);
-      } else if (typeof content === "string") {
-        // HTMLElement template
-        if ((content as string).trim().startsWith("<template")) {
-          const template = document.createElement("template");
-          template.innerHTML = content;
-          const clone = document.importNode(template.content, true);
-          container.appendChild(clone);
-        } else {
-          // Regular HTML string or plain label
-          container.innerHTML = content;
-        }
-      }
-    } catch (error) {
-      console.error("Error setting empty content:", error);
-      // Fallback to a simple message if loading fails
-      container.innerHTML = "<div>No content available</div>";
-    }
-  }
+				// Ensure proper styling
+				container.style.display = "flex";
+				container.style.height = "100%";
+				container.style.alignItems = "center";
+				container.style.justifyContent = "center";
+			} else if (content instanceof HTMLTemplateElement) {
+				// For template elements, clone the content
+				const clone = document.importNode(content.content, true);
+				container.appendChild(clone);
+			} else if (content instanceof HTMLElement) {
+				// Regular HTML elements
+				container.appendChild(content);
+			} else if (typeof content === "string") {
+				// HTMLElement template
+				if ((content as string).trim().startsWith("<template")) {
+					const template = document.createElement("template");
+					template.innerHTML = content;
+					const clone = document.importNode(template.content, true);
+					container.appendChild(clone);
+				} else {
+					// Regular HTML string or plain label
+					container.innerHTML = content;
+				}
+			}
+		} catch (error) {
+			console.error("Error setting empty content:", error);
+			// Fallback to a simple message if loading fails
+			container.innerHTML = "<div>No content available</div>";
+		}
+	}
 
-  protected createToolbars(): void {
-    // Create main toolbar
-    this.MWCViewElements.toolbarContainer = document.createElement("div");
-    this.MWCViewElements.toolbarContainer.className = "mwc-view-controls-container";
-    this.config.container.appendChild(this.MWCViewElements.toolbarContainer);
+	protected createToolbars(): void {
+		// Create main toolbar
+		this.MWCViewElements.toolbarContainer = document.createElement("div");
+		this.MWCViewElements.toolbarContainer.className = "mwc-view-controls-container";
+		this.config.container.appendChild(this.MWCViewElements.toolbarContainer);
 
-    // Create selection toolbar
-    this.MWCViewElements.selectedToolbarContainer = document.createElement("div");
-    this.MWCViewElements.selectedToolbarContainer.className = "mwc-view-controls-container";
-    this.MWCViewElements.selectedToolbarContainer.style.display = "none";
-    this.config.container.appendChild(this.MWCViewElements.selectedToolbarContainer);
-  }
+		// Create selection toolbar
+		this.MWCViewElements.selectedToolbarContainer = document.createElement("div");
+		this.MWCViewElements.selectedToolbarContainer.className = "mwc-view-controls-container";
+		this.MWCViewElements.selectedToolbarContainer.style.display = "none";
+		this.config.container.appendChild(this.MWCViewElements.selectedToolbarContainer);
+	}
 
-  protected createToolbarButton(config?: ToolbarButton): HTMLElement {
-    const button = document.createElement("div");
-    button.className = `mwc-view-controls-btn ${config?.className || ""}`;
+	protected createToolbarButton(config?: ToolbarButton): HTMLElement {
+		const button = document.createElement("div");
+		button.className = `mwc-view-controls-btn ${config?.className || ""}`;
 
-    if (!config) {
-      // Empty buttons
-      button.classList.add("disabled");
-      button.innerHTML = `<div></div>`;
-      return button;
-    }
+		if (!config) {
+			// Empty buttons
+			button.classList.add("disabled");
+			button.innerHTML = `<div></div>`;
+			return button;
+		}
 
-    const iconContainer = document.createElement("div");
-    iconContainer.className = "icon";
+		const iconContainer = document.createElement("div");
+		iconContainer.className = "icon";
 
-    if (isSVGString(config.icon)) {
-      // If SVG string, set innerHTML
-      iconContainer.innerHTML = config.icon;
-    } else {
-      // If URL/path, create img element
-      const iconImg = document.createElement("img");
-      iconImg.src = config.icon;
-      iconImg.alt = config.label;
-      iconImg.width = 24;
-      iconImg.height = 24;
-      iconContainer.appendChild(iconImg);
-    }
+		if (isSVGString(config.icon)) {
+			// If SVG string, set innerHTML
+			iconContainer.innerHTML = config.icon;
+		} else {
+			// If URL/path, create img element
+			const iconImg = document.createElement("img");
+			iconImg.src = config.icon;
+			iconImg.alt = config.label;
+			iconImg.width = 24;
+			iconImg.height = 24;
+			iconContainer.appendChild(iconImg);
+		}
 
-    // Create label container
-    const textContainer = document.createElement("div");
-    textContainer.className = "label";
-    textContainer.textContent = config.label;
+		// Create label container
+		const textContainer = document.createElement("div");
+		textContainer.className = "label";
+		textContainer.textContent = config.label;
 
-    // Add disabled state if specified
-    if (config.isDisabled === true) {
-      button.classList.add("disabled");
-    }
+		// Add disabled state if specified
+		if (config.isDisabled === true) {
+			button.classList.add("disabled");
+		}
 
-    if (config.isHidden === true) {
-      button.classList.add("hide");
-    }
+		if (config.isHidden === true) {
+			button.classList.add("hide");
+		}
 
-    // Append containers to button
-    button.appendChild(iconContainer);
-    button.appendChild(textContainer);
+		// Append containers to button
+		button.appendChild(iconContainer);
+		button.appendChild(textContainer);
 
-    if (config.onClick) {
-      button.addEventListener("click", config.onClick);
-    }
+		if (config.onClick) {
+			button.addEventListener("click", config.onClick);
+		}
 
-    return button;
-  }
+		return button;
+	}
 
-  public setVisible(visible: boolean, config?: any): void {
-    this.config.container.style.display = visible ? "flex" : "none";
-  }
+	public setVisible(visible: boolean, config?: any): void {
+		this.config.container.style.display = visible ? "flex" : "none";
+	}
 
-  protected showContent(show: boolean): void {
-    this.MWCViewElements.contentContainer.style.display = show ? "flex" : "none";
-    this.MWCViewElements.emptyContentContainer.style.display = show ? "none" : "flex";
-  }
+	protected showContent(show: boolean): void {
+		this.MWCViewElements.contentContainer.style.display = show ? "flex" : "none";
+		this.MWCViewElements.emptyContentContainer.style.display = show ? "none" : "flex";
+	}
 
-  protected toggleSelectionMode(show: boolean): void {
-    this.isSelectionMode = show;
-    this.updateToolbarState();
-  }
+	protected toggleSelectionMode(show: boolean): void {
+		this.isSelectionMode = show;
+		this.updateToolbarState();
+	}
 
-  protected updateToolbarState(): void {
-    this.MWCViewElements.toolbarContainer.style.display = this.isSelectionMode ? "none" : "flex";
-    this.MWCViewElements.selectedToolbarContainer.style.display = this.isSelectionMode ? "flex" : "none";
-  }
+	protected updateToolbarState(): void {
+		this.MWCViewElements.toolbarContainer.style.display = this.isSelectionMode ? "none" : "flex";
+		this.MWCViewElements.selectedToolbarContainer.style.display = this.isSelectionMode
+			? "flex"
+			: "none";
+	}
 }
 
 const DEFAULT_MWC_VIEW_STYLE = `

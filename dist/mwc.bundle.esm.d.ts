@@ -1,11 +1,3 @@
-export * from 'dynamsoft-core';
-export { _getNorImageData, _saveToFile, _toBlob, _toCanvas, _toImage } from 'dynamsoft-core';
-export * from 'dynamsoft-license';
-export * from 'dynamsoft-capture-vision-router';
-export * from 'dynamsoft-camera-enhancer';
-export * from 'dynamsoft-document-normalizer';
-export { NormalizedImageResultItem } from 'dynamsoft-document-normalizer';
-export * from 'dynamsoft-utility';
 import { DocumentScannerConfig, DocumentScannerViewConfig, DocumentResultViewConfig, DocumentCorrectionViewConfig } from 'dynamsoft-document-scanner';
 export * from 'dynamsoft-document-scanner';
 import * as dynamsoft_document_viewer from 'dynamsoft-document-viewer';
@@ -419,6 +411,7 @@ declare class MobileWebCapture {
     private scanner;
     private mwcViews;
     private currentView;
+    private ddsViewContainers;
     private uploadedFiles;
     private isInitialized;
     private isUsingDefaultContainer;
@@ -435,6 +428,11 @@ declare class MobileWebCapture {
     private setupMWCViews;
     private getDDSViewsToCreate;
     private createMWCViewContainers;
+    /**
+     * Restore the DDS (scanner-workflow) view containers to the hidden, absolutely-positioned
+     * state MWC creates them in, because DDS >= 1.5.0 leaves its scanner view container visible after initialize().
+     */
+    private hideDDSViewContainers;
     private createDefaultMWCContainer;
     private checkForTemporaryLicense;
     private loadDDVcss;

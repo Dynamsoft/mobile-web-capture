@@ -4,15 +4,15 @@ This directory is used to store files uploaded by users through the Mobile Web C
 
 1. Library View:
 
-  * Files uploaded in this view are stored as PDF files.
+- Files uploaded in this view are stored as PDF files.
 
 2. Document View:
 
-  * Files uploaded in this view are stored as PDF files or PNG files.
+- Files uploaded in this view are stored as PDF files or PNG files.
 
 3. Page View:
 
-  * Single images uploaded in this view are stored as PNG files.
+- Single images uploaded in this view are stored as PNG files.
 
 ### Accessing Uploaded Files
 
@@ -21,4 +21,4 @@ These uploaded files are accessible in the History View, which can be reached fr
 1. Download: Retrieve the file for local use.
 2. Delete: Remove the file from the directory.
 
-Read more on [Enable File Upload](https://www.dynamsoft.com/mobile-web-capture/docs/guides/mobile-web-capture-customization.html#enable-file-upload).
+Read more on [Enable File Upload](https://www.dynamsoft.com/mobile-document-scanner/docs/web/code-gallery/mobile-web-capture/customization-guide.html#enable-file-upload).
