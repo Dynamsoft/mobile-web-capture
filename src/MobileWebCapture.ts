@@ -27,7 +27,7 @@ const DEFAULT_DDV_CSS_ID = "mwc-ddv-css";
 const DEFAULT_DDV_CSS_FILE = "ddv.css";
 const DEFAULT_DDV_ENGINE_RESOURCE_PATH_FOLDER = "engine";
 const DEFAULT_DDV_RESOURCE_PATH =
-	"https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@3.2.0/dist";
+	"https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@5.0.1/dist";
 const DEFAULT_CONTAINER_HEIGHT = "100dvh";
 
 export interface MWCScanner {
